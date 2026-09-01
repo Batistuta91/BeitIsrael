@@ -1,8 +1,113 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>placeholder-will-replace</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#021D6B">
+<title>בית כנסת בית ישראל</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700&family=Assistant:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#021D6B;--gold:#CEA647;--bg:#f7f8fb;--ink:#0a1630}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Frank Ruhl Libre',serif;background:var(--bg);color:var(--ink);direction:rtl;line-height:1.55}
+.topbar{background:var(--navy);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px}
+.topbar img{width:40px;height:40px;border-radius:50%;background:#fff}
+.hero{background:linear-gradient(165deg,#01144a,var(--navy));color:#fff;text-align:center;padding:48px 20px}
+.hero img{width:160px;height:160px;border-radius:50%;border:5px solid #fff;margin-bottom:24px;background:#fff}
+.hero h1{font-size:2.5rem;font-weight:700}
+.wrap{max-width:720px;margin:0 auto;padding:32px 20px}
+section{padding:32px 0;border-bottom:1px solid rgba(2,29,107,.1)}
+h2{font-size:1.8rem;margin-bottom:12px}
+.gold{color:var(--gold)}
+.time{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed rgba(2,29,107,.12)}
+.footer{background:#01144a;color:rgba(255,255,255,.7);text-align:center;padding:24px;font-size:.9rem}
+a{color:var(--navy)}
+.loading{text-align:center;padding:40px;color:#6b7a96}
+</style>
 </head>
-<body>temp</body>
+<body>
+<div class="topbar">
+  <img src="logo.png" alt="">
+  <strong>בית ישראל</strong>
+</div>
+<section class="hero">
+  <img src="logo.png" alt="לוגו">
+  <div id="dates" style="opacity:.75;margin-bottom:16px"></div>
+  <h1>בית כנסת<br>בית ישראל</h1>
+  <p id="tagline" style="opacity:.85;margin-top:12px"></p>
+</section>
+<div class="wrap">
+  <div class="loading" id="loading">טוען...</div>
+  <div id="content" style="display:none">
+    <section>
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="letter-spacing:.2em;color:#6b7a96;font-size:.85rem">שבת פרשת</div>
+        <h2 class="gold" id="parasha" style="font-size:3rem"></h2>
+      </div>
+      <div id="shabbat-times"></div>
+    </section>
+    <section>
+      <h2>שחרית, מנחה ומעריב</h2>
+      <div id="weekday"></div>
+    </section>
+    <section>
+      <h2>דבר תורה</h2>
+      <div id="torah"></div>
+    </section>
+    <section>
+      <h2>יצירת קשר</h2>
+      <p id="address"></p>
+      <p id="gabbai"></p>
+    </section>
+  </div>
+</div>
+<footer class="footer">
+  <p>© 2026 · בית כנסת בית ישראל</p>
+</footer>
+<script>
+const DATA_URL='https://api.jsonbin.io/v3/b/6a967794f5f4af5e295b1fc6/latest';
+const HEBCAL='https://www.hebcal.com/shabbat?cfg=json&geonameid=293918&b=30&M=on&lg=he&i=on';
+(async()=>{
+  try{
+    const [binRes,hebRes]=await Promise.all([
+      fetch(DATA_URL,{cache:'no-store'}),
+      fetch(HEBCAL,{cache:'no-store'})
+    ]);
+    const body=await binRes.json();
+    const data=body.record||body;
+    const heb=hebRes.ok?await hebRes.json():{items:[]};
+    const items=heb.items||[];
+    const par=items.find(i=>i.category==='parashat');
+    if(par){let n=par.hebrew||par.title||'';data.shabbat=data.shabbat||{};data.shabbat.parasha=n.replace(/^פרשת\s+/,'').replace(/^פָּרָשַׁת\s+/,'');}
+    const candles=items.find(i=>i.category==='candles');
+    const hav=items.find(i=>i.category==='havdalah');
+    if(candles&&data.shabbat?.times){const e=data.shabbat.times.find(t=>t.label&&t.label.includes('הדלקת'));if(e){e.value=candles.date.slice(11,16);e.note='מ־Hebcal · פתח תקווה';}}
+    if(hav&&data.shabbat?.times){const e=data.shabbat.times.find(t=>t.label&&(t.label.includes('הבדלה')||t.label.includes('ערבית')));if(e)e.value=hav.date.slice(11,16);}
+    const now=new Date();
+    const cr=await fetch(`https://www.hebcal.com/converter?cfg=json&g2h=1&gy=${now.getFullYear()}&gm=${now.getMonth()+1}&gd=${now.getDate()}`);
+    if(cr.ok){const c=await cr.json();if(c.hebrew)data.date={...(data.date||{}),hebrew:c.hebrew.replace(/[\u0591-\u05C7]/g,'')};const m=['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];data.date.gregorian=`${now.getDate()} ב${m[now.getMonth()]} ${now.getFullYear()}`;}
+    document.getElementById('dates').textContent=((data.date||{}).hebrew||'')+' · '+((data.date||{}).gregorian||'');
+    document.getElementById('tagline').textContent=(data.site||{}).tagline||'';
+    document.getElementById('parasha').textContent=(data.shabbat||{}).parasha||'';
+    document.getElementById('shabbat-times').innerHTML=((data.shabbat||{}).times||[]).map(t=>`<div class="time"><span>${t.label}${t.note?' <small style="color:#6b7a96">('+t.note+')</small>':''}</span><strong>${t.value||''}</strong></div>`).join('');
+    const wd=data.weekday||{};
+    let wh='';
+    (wd.table||[]).forEach(r=>{wh+=`<div class="time"><span>${r.day}</span><span>מנחה ${r.mincha||''} · מעריב ${r.maariv||''}</span></div>`;});
+    (wd.shacharit||[]).forEach(r=>{wh+=`<div class="time"><span>${r.label}</span><strong>${r.value||''}</strong></div>`;});
+    if(wd.subtitle)wh=`<p style="color:#6b7a96;margin-bottom:12px">${wd.subtitle}</p>`+wh;
+    document.getElementById('weekday').innerHTML=wh;
+    const tf=(data.torah||{}).featured||{};
+    document.getElementById('torah').innerHTML=`<p style="color:#6b7a96;font-size:.9rem">${tf.date||''}</p><h3 style="margin:8px 0">${tf.title||''}</h3><p>${tf.excerpt||''}</p><p style="margin-top:12px"><strong>${tf.author||''}</strong> ${tf.author_role||''}</p>`;
+    const ct=data.contact||{};
+    document.getElementById('address').textContent=ct.address||'';
+    document.getElementById('gabbai').innerHTML=((ct.gabbaim)||[]).map(g=>`${g.name||''} · <a href="tel:${(g.phone||'').replace(/\D/g,'')}" dir="ltr">${g.phone_display||g.phone||''}</a>`).join('<br>');
+    document.getElementById('loading').style.display='none';
+    document.getElementById('content').style.display='block';
+  }catch(e){
+    document.getElementById('loading').textContent='שגיאה בטעינה: '+e.message;
+  }
+})();
+</script>
+</body>
 </html>
