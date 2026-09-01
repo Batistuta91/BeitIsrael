@@ -431,6 +431,16 @@
       line-height: 1.7;
       margin-bottom: var(--s-4);
       white-space: pre-line;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-left: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+    }
+    .torah__featured-excerpt::-webkit-scrollbar { width: 6px; }
+    .torah__featured-excerpt::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 3px;
     }
     .torah__author {
       display: flex;
@@ -571,6 +581,64 @@
     .pillar__name { font-family: var(--font-serif); font-weight: 500; font-size: 1.35rem; margin-bottom: var(--s-3); }
     .pillar__desc { font-family: var(--font-serif); color: var(--ink-2); font-size: 1rem; line-height: 1.6; }
 
+
+    /* ---------- Donations ---------- */
+    .donate {
+      background: var(--bg-elev);
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .donate__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-6);
+      margin-top: var(--s-6);
+      max-width: 640px;
+    }
+    @media (max-width: 560px) { .donate__grid { grid-template-columns: 1fr; } }
+    .donate__card {
+      background: var(--bg);
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: var(--s-5);
+    }
+    .donate__card h3 {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      color: var(--navy);
+      margin-bottom: var(--s-3);
+    }
+    .donate__row {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--s-3);
+      padding-block: 6px;
+      border-bottom: 1px dashed var(--hairline);
+      font-size: 0.98rem;
+    }
+    .donate__row:last-child { border-bottom: none; }
+    .donate__label { color: var(--ink-3); font-family: var(--font-sans); font-size: 0.88rem; }
+    .donate__value {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      color: var(--ink);
+      direction: ltr;
+      unicode-bidi: embed;
+      text-align: left;
+    }
+    .donate__note {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      color: var(--ink-3);
+      margin-top: var(--s-5);
+      max-width: 46ch;
+      padding-inline-start: var(--s-4);
+      border-inline-start: 2px solid var(--accent);
+    }
+    .donate__note:empty { display: none; }
+
     /* ---------- Visit ---------- */
     .visit { background: var(--navy); color: #fff; padding-block: var(--s-10); }
     .visit .section__title, .visit h2 { color: #fff; }
@@ -651,6 +719,7 @@
         <a href="#torah">תורה</a>
         <a href="#classes">שיעורים</a>
         <a href="#visit">בואו אלינו</a>
+        <a href="#donate">תרומות</a>
       </nav>
     </div>
   </div>
@@ -797,6 +866,56 @@
         </div>
       </div>
     </section>
+
+    <!-- Donations -->
+    <section class="donate" id="donate" data-if="donations.enabled">
+      <div class="wrap">
+        <div class="eyebrow">תרומות</div>
+        <h2 class="section__title" data-bind="donations.title">תרומות לבית הכנסת.</h2>
+        <p class="section__sub" data-bind="donations.subtitle" data-if="donations.subtitle"></p>
+
+        <div class="donate__grid">
+          <div class="donate__card" data-if="donations.bank_name">
+            <h3>העברה בנקאית</h3>
+            <div class="donate__row" data-if="donations.bank_name">
+              <span class="donate__label">בנק</span>
+              <span class="donate__value" data-bind="donations.bank_name"></span>
+            </div>
+            <div class="donate__row" data-if="donations.branch">
+              <span class="donate__label">סניף</span>
+              <span class="donate__value" data-bind="donations.branch"></span>
+            </div>
+            <div class="donate__row" data-if="donations.account">
+              <span class="donate__label">מספר חשבון</span>
+              <span class="donate__value" data-bind="donations.account"></span>
+            </div>
+            <div class="donate__row" data-if="donations.account_name">
+              <span class="donate__label">שם החשבון</span>
+              <span class="donate__value" data-bind="donations.account_name"></span>
+            </div>
+            <div class="donate__row" data-if="donations.iban">
+              <span class="donate__label">IBAN</span>
+              <span class="donate__value" data-bind="donations.iban"></span>
+            </div>
+          </div>
+
+          <div class="donate__card" data-if="donations.bit_phone">
+            <h3>ביט / פייבוקס</h3>
+            <div class="donate__row" data-if="donations.bit_phone">
+              <span class="donate__label">טלפון לביט</span>
+              <span class="donate__value" data-bind="donations.bit_phone" dir="ltr"></span>
+            </div>
+            <div class="donate__row" data-if="donations.paybox">
+              <span class="donate__label">פייבוקס</span>
+              <span class="donate__value" data-bind="donations.paybox" dir="ltr"></span>
+            </div>
+          </div>
+        </div>
+
+        <p class="donate__note" data-bind="donations.note" data-if="donations.note"></p>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
@@ -888,7 +1007,10 @@
       "short_name": "בית ישראל",
       "tagline": "בית תפילה קהילתי נוסח ספרד — פתוח בכל יום, לכל יהודי."
     },
-    "date": { "hebrew": "כ״ב באלול תשפ״ו", "gregorian": "26 באוגוסט 2026" },
+    "date": {
+      "hebrew": "כ״ב באלול תשפ״ו",
+      "gregorian": "26 באוגוסט 2026"
+    },
     "shabbat": {
       "parasha": "כי תבוא",
       "petiha": {
@@ -897,31 +1019,72 @@
         "reference": "דברים כ״ח, ו"
       },
       "times": [
-        { "label": "הדלקת נרות", "value": "18:32", "note": "כ־40 דקות לפני שקיעה — מנהג ירושלים" },
-        { "label": "מנחה, קבלת שבת וערבית", "value": "18:55" },
-        { "label": "שיעור לפני שחרית — אור החיים", "value": "08:00" },
-        { "label": "שחרית", "value": "08:15" },
-        { "label": "תהילים לילדים", "value": "15:00" },
-        { "label": "שיעור בין מנחה למעריב", "value": "18:00" },
-        { "label": "מנחה של שבת", "value": "18:30" },
-        { "label": "ערבית והבדלה", "value": "19:45" }
+        {
+          "label": "הדלקת נרות",
+          "value": "18:32",
+          "note": "כ־40 דקות לפני שקיעה — מנהג ירושלים"
+        },
+        {
+          "label": "מנחה, קבלת שבת וערבית",
+          "value": "18:55"
+        },
+        {
+          "label": "שיעור לפני שחרית — אור החיים",
+          "value": "08:00"
+        },
+        {
+          "label": "שחרית",
+          "value": ""
+        },
+        {
+          "label": "תהילים לילדים",
+          "value": "15:00"
+        },
+        {
+          "label": "שיעור בין מנחה למעריב",
+          "value": "18:00"
+        },
+        {
+          "label": "מנחה של שבת",
+          "value": "18:30"
+        },
+        {
+          "label": "ערבית והבדלה",
+          "value": "19:45"
+        }
       ]
     },
     "weekday": {
       "title": "שחרית, מנחה ומעריב.",
       "subtitle": "",
       "table": [
-        { "day": "ראשון",  "mincha": "18:55", "maariv": "19:25" },
-        { "day": "שני",    "mincha": "18:50", "maariv": "19:25" },
-        { "day": "שלישי",  "mincha": "18:50", "maariv": "19:25" },
-        { "day": "רביעי",  "mincha": "18:50", "maariv": "19:20" },
-        { "day": "חמישי",  "mincha": "18:50", "maariv": "19:20" }
+        {
+          "day": "ראשון",
+          "mincha": "",
+          "maariv": ""
+        },
+        {
+          "day": "שני",
+          "mincha": "",
+          "maariv": ""
+        },
+        {
+          "day": "שלישי",
+          "mincha": "",
+          "maariv": ""
+        },
+        {
+          "day": "רביעי",
+          "mincha": "",
+          "maariv": ""
+        },
+        {
+          "day": "חמישי",
+          "mincha": "",
+          "maariv": ""
+        }
       ],
-      "shacharit": [
-        { "label": "שחרית · שני, חמישי", "value": "06:15" },
-        { "label": "שחרית · שאר ימי החול", "value": "06:30" },
-        { "label": "שחרית · ראש חודש", "value": "06:15" }
-      ],
+      "shacharit": [],
       "note": "חודש אלול: סליחות בכל בוקר, ותקיעת שופר לאחר שחרית. שינויים והודעות מיוחדות מפורסמים בקבוצת הוואטסאפ של הקהילה."
     },
     "torah": {
@@ -936,10 +1099,26 @@
         "author_initial": "י"
       },
       "archive": [
-        { "title": "מים חיים — על מטבע הברכות", "parasha": "כי תצא · ט״ו באלול", "url": "#" },
-        { "title": "מלחמת רשות ומלחמת מצוה — קריאה מחודשת", "parasha": "שופטים · ח׳ באלול", "url": "#" },
-        { "title": "אחרי המדבר — התייצבות מול הנחלה", "parasha": "ראה · א׳ באלול", "url": "#" },
-        { "title": "שמע ישראל — על השמיעה שקודמת לעשיה", "parasha": "עקב · כ״ה במנחם אב", "url": "#" }
+        {
+          "title": "מים חיים — על מטבע הברכות",
+          "parasha": "כי תצא · ט״ו באלול",
+          "url": "#"
+        },
+        {
+          "title": "מלחמת רשות ומלחמת מצוה — קריאה מחודשת",
+          "parasha": "שופטים · ח׳ באלול",
+          "url": "#"
+        },
+        {
+          "title": "אחרי המדבר — התייצבות מול הנחלה",
+          "parasha": "ראה · א׳ באלול",
+          "url": "#"
+        },
+        {
+          "title": "שמע ישראל — על השמיעה שקודמת לעשיה",
+          "parasha": "עקב · כ״ה במנחם אב",
+          "url": "#"
+        }
       ]
     },
     "classes_section": {
@@ -947,20 +1126,61 @@
       "subtitle": "השיעורים הקבועים בבית הכנסת. כולם מוזמנים; אין צורך ברישום."
     },
     "classes": [
-      { "title": "דף יומי", "teacher": "משה אביטן", "where": "בית המדרש", "when": "כל בוקר, 05:30" },
-      { "title": "אור החיים על פרשת השבוע", "teacher": "אליהו כהן", "where": "בית המדרש הגדול", "when": "יום שישי, אחרי מנחה" },
-      { "title": "הלכה יומית — קיצור שולחן ערוך", "teacher": "בסבב חברי הקהילה", "where": "בין מנחה למעריב", "when": "כל יום" },
-      { "title": "שיעור פרשת שבוע לנשים", "teacher": "רבנית שירה מזרחי", "where": "עזרת נשים", "when": "יום רביעי, 20:00" },
-      { "title": "משנה יומית לילדים", "teacher": "יוסי לוי", "where": "בית המדרש הקטן", "when": "שבת אחר הצהריים" }
+      {
+        "title": "דף יומי",
+        "teacher": "משה אביטן",
+        "where": "בית המדרש",
+        "when": "כל בוקר, 05:30"
+      },
+      {
+        "title": "אור החיים על פרשת השבוע",
+        "teacher": "אליהו כהן",
+        "where": "בית המדרש הגדול",
+        "when": "יום שישי, אחרי מנחה"
+      },
+      {
+        "title": "הלכה יומית — קיצור שולחן ערוך",
+        "teacher": "בסבב חברי הקהילה",
+        "where": "בין מנחה למעריב",
+        "when": "כל יום"
+      },
+      {
+        "title": "שיעור פרשת שבוע לנשים",
+        "teacher": "רבנית שירה מזרחי",
+        "where": "עזרת נשים",
+        "when": "יום רביעי, 20:00"
+      },
+      {
+        "title": "משנה יומית לילדים",
+        "teacher": "יוסי לוי",
+        "where": "בית המדרש הקטן",
+        "when": "שבת אחר הצהריים"
+      }
     ],
     "community": {
       "title": "מי אנחנו.",
       "intro": "קהילה של כמאתיים משפחות. חלקנו כאן מהיום שהצריף הראשון נבנה ב־1972, וחלקנו הצטרפנו בשנה שעברה. באנו מכל מקום — ובאנו לנוח יחד.",
       "pillars": [
-        { "marker": "א", "name": "תפילה בציבור, יום־יום", "desc": "שחרית, מנחה ומעריב בכל יום. חוץ מיום כיפור, לא סגרנו את השערים אף יום מאז 1972." },
-        { "marker": "ב", "name": "לימוד תורה", "desc": "שיעורים קבועים לגברים, לנשים ולילדים. גמרא, הלכה, פרשת שבוע, ומחשבת ישראל." },
-        { "marker": "ג", "name": "בית פתוח", "desc": "אין דמי חבר. אין רישום. מגיעים מתי שנוח, יוצאים מתי שצריך. אורחים הם משפחה בעליה השנייה." },
-        { "marker": "ד", "name": "חסד קטן, יום־יום", "desc": "ביקורי חולים, הבאת אוכל למשפחות באבל, ליווי גיורים וברי מצוה, וסיוע דיסקרטי לכל צורך." }
+        {
+          "marker": "א",
+          "name": "תפילה בציבור, יום־יום",
+          "desc": "שחרית, מנחה ומעריב בכל יום. חוץ מיום כיפור, לא סגרנו את השערים אף יום מאז 1972."
+        },
+        {
+          "marker": "ב",
+          "name": "לימוד תורה",
+          "desc": "שיעורים קבועים לגברים, לנשים ולילדים. גמרא, הלכה, פרשת שבוע, ומחשבת ישראל."
+        },
+        {
+          "marker": "ג",
+          "name": "בית פתוח",
+          "desc": "אין דמי חבר. אין רישום. מגיעים מתי שנוח, יוצאים מתי שצריך. אורחים הם משפחה בעליה השנייה."
+        },
+        {
+          "marker": "ד",
+          "name": "חסד קטן, יום־יום",
+          "desc": "ביקורי חולים, הבאת אוכל למשפחות באבל, ליווי גיורים וברי מצוה, וסיוע דיסקרטי לכל צורך."
+        }
       ]
     },
     "contact": {
@@ -969,13 +1189,30 @@
       "directions": "קרן היסוד 26, פתח תקווה. חניה חופשית ברחוב בשבתות וחגים.",
       "map_url": "https://www.google.com/maps/search/?api=1&query=קרן+היסוד+26+פתח+תקווה",
       "gabbaim": [
-        { "name": "אריה זכסנהויז", "phone": "0523680024", "phone_display": "052-368-0024" }
+        {
+          "name": "אריה זכסנהויז",
+          "phone": "0523680024",
+          "phone_display": "052-368-0024"
+        }
       ],
       "email": "kehila@beit-yisrael.org.il"
     },
     "footer": {
       "blessing": "״וְשָׁב וְקִבֶּצְךָ מִכָּל־הָעַמִּים״",
       "copyright": "© 2026 · בית כנסת בית ישראל"
+    },
+    "donations": {
+      "enabled": true,
+      "title": "תרומות לבית הכנסת.",
+      "subtitle": "תרומותיכם מאפשרות את המשך פעילות בית הכנסת.",
+      "bank_name": "",
+      "branch": "",
+      "account": "",
+      "account_name": "",
+      "iban": "",
+      "bit_phone": "",
+      "paybox": "",
+      "note": ""
     }
   }
   </script>
@@ -1014,11 +1251,11 @@
          data-if="path"             → hide element if value is empty
        ------------------------------------------------------------ */
     function bindElement(el, data) {
-      // data-if: hide if empty
+      // data-if: hide if empty / false / null
       const ifPath = el.dataset.if;
       if (ifPath) {
         const val = resolvePath(data, ifPath);
-        if (val == null || val === '') {
+        if (val == null || val === '' || val === false) {
           el.style.display = 'none';
           return;
         } else {
@@ -1072,8 +1309,8 @@
        Full render: all top-level bindings + all lists.
        ------------------------------------------------------------ */
     function render(data) {
-      // Simple bindings
-      document.querySelectorAll('[data-bind]').forEach(el => {
+      // Simple bindings + conditional visibility
+      document.querySelectorAll('[data-bind], [data-if]').forEach(el => {
         // Skip elements inside templates
         if (el.closest('template')) return;
         bindElement(el, data);
