@@ -353,6 +353,47 @@
     }
 
     /* ---------- Utility ---------- */
+
+    /* ---------- Login gate ---------- */
+    #login-gate {
+      max-width: 420px;
+      margin: 80px auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+    }
+    #login-gate h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    #login-gate .muted { margin-bottom: 18px; display: block; }
+    #login-gate .field { margin-bottom: 14px; }
+    #login-gate input[type=password],
+    #login-gate input[type=text] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+    }
+    #login-gate input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(125, 30, 40, 0.15);
+    }
+    #login-error {
+      color: var(--danger);
+      font-size: 0.9rem;
+      margin-top: 8px;
+      min-height: 1.2em;
+    }
+    #login-gate .actions { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+
     .hidden { display: none !important; }
     .muted { color: var(--ink-3); font-size: 0.85rem; }
     .connection-badge {
@@ -379,7 +420,28 @@
     </div>
   </header>
 
-  <div class="wrap">
+
+  <!-- Password gate -->
+  <div id="login-gate" class="hidden">
+    <div class="wrap" style="padding:0">
+      <h2 id="login-title">כניסה לניהול</h2>
+      <span class="muted" id="login-hint">הזינו את סיסמת הניהול כדי לערוך את תוכן האתר.</span>
+      <div class="field">
+        <label for="login-password">סיסמה</label>
+        <input type="password" id="login-password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <div class="field hidden" id="login-password2-wrap">
+        <label for="login-password2">אימות סיסמה</label>
+        <input type="password" id="login-password2" autocomplete="new-password" placeholder="••••••••">
+      </div>
+      <div class="actions">
+        <button class="primary" id="btn-login" type="button">כניסה</button>
+      </div>
+      <div id="login-error"></div>
+    </div>
+  </div>
+
+  <div class="wrap" id="admin-main">
 
     <!-- Setup panel: shown when no credentials or connection failed -->
     <div id="setup" class="setup hidden">
@@ -410,6 +472,29 @@
 
     <!-- Main editor -->
     <div id="editor" class="hidden">
+
+
+      <!-- Change password -->
+      <details class="panel">
+        <summary>סיסמת ניהול</summary>
+        <div class="content">
+          <div class="field">
+            <label>סיסמה נוכחית</label>
+            <input type="password" id="pw-current" autocomplete="current-password">
+          </div>
+          <div class="field">
+            <label>סיסמה חדשה</label>
+            <input type="password" id="pw-new" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label>אימות סיסמה חדשה</label>
+            <input type="password" id="pw-new2" autocomplete="new-password">
+          </div>
+          <button type="button" class="primary" id="btn-change-pw" style="margin-top:8px">עדכן סיסמה</button>
+          <span id="pw-status" class="muted" style="margin-right:12px"></span>
+          <p class="muted" style="margin-top:12px">הסיסמה נשמרת בדפדפן זה בלבד. אם תפתחו את האדמין ממחשב אחר — תצטרכו להגדיר סיסמה מחדש (או להשתמש באותה סיסמה אחרי הגדרה ראשונית).</p>
+        </div>
+      </details>
 
       <!-- Notice banner -->
       <details class="panel" open>
@@ -1189,6 +1274,7 @@
   document.getElementById('btn-logout').addEventListener('click', () => {
     if (dirty && !confirm('יש שינויים שלא נשמרו. להתנתק בכל זאת?')) return;
     clearCreds();
+    setSessionUnlocked(false);
     location.reload();
   });
 
@@ -1359,9 +1445,146 @@
     };
   }
 
+
+  // ===== Admin password gate (client-side) =====
+  // Stored only in localStorage of this browser. Not a server-side secret.
+  const PW_STORAGE = 'beit-yisrael-admin-pw';
+  const SESSION_KEY = 'beit-yisrael-admin-session';
+
+  async function sha256(text) {
+    const data = new TextEncoder().encode(text);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function getStoredPwHash() {
+    try { return localStorage.getItem(PW_STORAGE); } catch (e) { return null; }
+  }
+  function setStoredPwHash(hash) {
+    localStorage.setItem(PW_STORAGE, hash);
+  }
+  function isSessionUnlocked() {
+    try { return sessionStorage.getItem(SESSION_KEY) === '1'; } catch (e) { return false; }
+  }
+  function setSessionUnlocked(on) {
+    if (on) sessionStorage.setItem(SESSION_KEY, '1');
+    else sessionStorage.removeItem(SESSION_KEY);
+  }
+
+  function showLoginGate(isSetup) {
+    document.getElementById('login-gate').classList.remove('hidden');
+    document.getElementById('admin-main')?.classList.add('hidden');
+    document.getElementById('save-bar')?.classList.add('hidden');
+    document.getElementById('loading')?.classList.add('hidden');
+    const title = document.getElementById('login-title');
+    const hint = document.getElementById('login-hint');
+    const wrap2 = document.getElementById('login-password2-wrap');
+    if (isSetup) {
+      title.textContent = 'הגדרת סיסמת ניהול';
+      hint.textContent = 'זו הכניסה הראשונה במכשיר זה. בחרו סיסמה לניהול האתר (לפחות 4 תווים).';
+      wrap2.classList.remove('hidden');
+      document.getElementById('btn-login').textContent = 'שמור סיסמה והמשך';
+    } else {
+      title.textContent = 'כניסה לניהול';
+      hint.textContent = 'הזינו את סיסמת הניהול כדי לערוך את תוכן האתר.';
+      wrap2.classList.add('hidden');
+      document.getElementById('btn-login').textContent = 'כניסה';
+    }
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-password2').value = '';
+    document.getElementById('login-error').textContent = '';
+    setTimeout(() => document.getElementById('login-password').focus(), 100);
+  }
+
+  function hideLoginGate() {
+    document.getElementById('login-gate').classList.add('hidden');
+    document.getElementById('admin-main')?.classList.remove('hidden');
+  }
+
+  async function handleLogin() {
+    const err = document.getElementById('login-error');
+    err.textContent = '';
+    const pw = document.getElementById('login-password').value;
+    const stored = getStoredPwHash();
+
+    if (!stored) {
+      // First-time setup
+      const pw2 = document.getElementById('login-password2').value;
+      if (!pw || pw.length < 4) {
+        err.textContent = 'הסיסמה חייבת להכיל לפחות 4 תווים.';
+        return;
+      }
+      if (pw !== pw2) {
+        err.textContent = 'הסיסמאות אינן תואמות.';
+        return;
+      }
+      setStoredPwHash(await sha256(pw));
+      setSessionUnlocked(true);
+      hideLoginGate();
+      continueBootAfterAuth();
+      return;
+    }
+
+    const hash = await sha256(pw);
+    if (hash !== stored) {
+      err.textContent = 'סיסמה שגויה.';
+      return;
+    }
+    setSessionUnlocked(true);
+    hideLoginGate();
+    continueBootAfterAuth();
+  }
+
+  document.getElementById('btn-login')?.addEventListener('click', handleLogin);
+  document.getElementById('login-password')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleLogin();
+  });
+  document.getElementById('login-password2')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleLogin();
+  });
+
+  // Change password
+  document.getElementById('btn-change-pw')?.addEventListener('click', async () => {
+    const status = document.getElementById('pw-status');
+    status.textContent = '';
+    const cur = document.getElementById('pw-current').value;
+    const nw = document.getElementById('pw-new').value;
+    const nw2 = document.getElementById('pw-new2').value;
+    const stored = getStoredPwHash();
+    if (!stored) {
+      status.textContent = 'אין סיסמה מוגדרת.';
+      return;
+    }
+    if ((await sha256(cur)) !== stored) {
+      status.textContent = 'הסיסמה הנוכחית שגויה.';
+      status.style.color = 'var(--danger)';
+      return;
+    }
+    if (!nw || nw.length < 4) {
+      status.textContent = 'הסיסמה החדשה חייבת להכיל לפחות 4 תווים.';
+      status.style.color = 'var(--danger)';
+      return;
+    }
+    if (nw !== nw2) {
+      status.textContent = 'הסיסמאות החדשות אינן תואמות.';
+      status.style.color = 'var(--danger)';
+      return;
+    }
+    setStoredPwHash(await sha256(nw));
+    document.getElementById('pw-current').value = '';
+    document.getElementById('pw-new').value = '';
+    document.getElementById('pw-new2').value = '';
+    status.textContent = 'הסיסמה עודכנה בהצלחה ✓';
+    status.style.color = 'var(--success)';
+  });
+
+  // Called after successful auth — continues original boot logic
+  let continueBootAfterAuth = () => {};
+
+
   // ------- Boot -------
 
-  (async function boot() {
+  async function runAdminBoot() {
     // Pre-fill the setup form with embedded values (in case user needs to re-connect)
     const binInput = document.getElementById('bin-id');
     const keyInput = document.getElementById('master-key');
@@ -1383,6 +1606,15 @@
         state.binId = EMBEDDED_BIN_ID;
         state.masterKey = EMBEDDED_MASTER_KEY;
         state.data = data;
+        if (!state.data.donations) {
+          state.data.donations = {
+            enabled: false,
+            title: 'תרומות לבית הכנסת.',
+            subtitle: '',
+            bank_name: '', branch: '', account: '', account_name: '',
+            iban: '', bit_phone: '', paybox: '', note: ''
+          };
+        }
         state.version = version;
         saveCreds({ binId: EMBEDDED_BIN_ID, masterKey: EMBEDDED_MASTER_KEY });
         showEditor();
@@ -1393,6 +1625,17 @@
     }
 
     showSetup();
+  }
+
+  (async function boot() {
+    continueBootAfterAuth = runAdminBoot;
+    const stored = getStoredPwHash();
+    if (!isSessionUnlocked()) {
+      showLoginGate(!stored);
+      return;
+    }
+    hideLoginGate();
+    await runAdminBoot();
   })();
 
   </script>
