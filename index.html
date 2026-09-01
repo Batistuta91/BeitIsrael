@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#ede1c8">
+  <meta name="theme-color" content="#021D6B">
   <title>בית כנסת בית ישראל</title>
   <meta name="description" content="בית תפילה קהילתי — תפילות שחרית, מנחה ומעריב בכל יום, שיעורי תורה, ובית פתוח לכל יהודי.">
   <link rel="icon" href="logo.jpg" type="image/jpeg">
@@ -21,19 +22,21 @@
        ============================================================ */
 
     :root {
-      /* Palette */
-      --bg:          #ede1c8;
-      --bg-2:        #e5d6b3;
-      --bg-elev:     #f3ebd5;
-      --ink:         #1e1611;
-      --ink-2:       #4d3b2c;
-      --ink-3:       #8a7a68;
-      --accent:      #7d1e28;
-      --accent-2:    #9c3639;
-      --brass:       #8b6f2a;
-      --brass-hover: #a68633;
-      --hairline:    rgba(30, 22, 17, 0.14);
-      --divider:     rgba(30, 22, 17, 0.24);
+      /* Palette — Yeshurun style: navy + gold */
+      --bg:          #f7f8fb;
+      --bg-2:        #eef1f7;
+      --bg-elev:     #ffffff;
+      --ink:         #0a1630;
+      --ink-2:       #2a3a5c;
+      --ink-3:       #6b7a96;
+      --navy:        #021D6B;
+      --navy-deep:   #01144a;
+      --accent:      #CEA647;
+      --accent-2:    #b8923a;
+      --brass:       #CEA647;
+      --brass-hover: #dbb85c;
+      --hairline:    rgba(2, 29, 107, 0.10);
+      --divider:     rgba(2, 29, 107, 0.16);
 
       /* Type */
       --font-serif: 'Frank Ruhl Libre', 'David Libre', 'Times New Roman', serif;
@@ -64,14 +67,11 @@
       line-height: 1.55;
       direction: rtl;
       text-align: right;
-      background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.09  0 0 0 0 0.07  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      background-repeat: repeat;
     }
 
     h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; line-height: 1.15; color: var(--ink); }
-    a { color: var(--brass); text-decoration: none; border-bottom: 1px solid rgba(139, 111, 42, 0.35); transition: border-color .2s, color .2s; }
-    a:hover { color: var(--brass-hover); border-bottom-color: var(--brass-hover); }
+    a { color: var(--navy); text-decoration: none; border-bottom: 1px solid rgba(2, 29, 107, 0.25); transition: border-color .2s, color .2s; }
+    a:hover { color: var(--accent-2); border-bottom-color: var(--accent); }
     p { margin: 0; }
     p + p { margin-top: var(--s-4); }
 
@@ -100,12 +100,13 @@
 
     /* ---------- Top bar ---------- */
     .topbar {
-      border-bottom: 1px solid var(--hairline);
+      background: var(--navy);
+      border-bottom: none;
       padding-block: var(--s-3);
       font-family: var(--font-sans);
       font-size: 0.85rem;
     }
-    .topbar__row { display: flex; justify-content: space-between; align-items: center; gap: var(--s-4); color: var(--ink-2); }
+    .topbar__row { display: flex; justify-content: space-between; align-items: center; gap: var(--s-4); color: rgba(255,255,255,0.85); }
     .topbar__brand {
       display: flex;
       align-items: center;
@@ -113,7 +114,7 @@
       font-family: var(--font-serif);
       font-weight: 700;
       font-size: 1rem;
-      color: var(--ink);
+      color: #fff;
       border: none;
       text-decoration: none;
     }
@@ -123,14 +124,19 @@
       border-radius: 50%;
       object-fit: cover;
       display: block;
+      background: #fff;
     }
     .topbar__nav { display: flex; gap: var(--s-5); }
-    .topbar__nav a { color: var(--ink-2); border: none; font-weight: 500; }
-    .topbar__nav a:hover { color: var(--ink); }
+    .topbar__nav a { color: rgba(255,255,255,0.8); border: none; font-weight: 500; }
+    .topbar__nav a:hover { color: var(--accent); }
     @media (max-width: 640px) { .topbar__nav { display: none; } }
 
     /* ---------- Hero ---------- */
-    .hero { padding-block: var(--s-11) var(--s-9); }
+    .hero {
+      padding-block: var(--s-11) var(--s-9);
+      background: linear-gradient(165deg, var(--navy-deep) 0%, var(--navy) 55%, #0a2a7a 100%);
+      color: #fff;
+    }
     .hero__logo {
       width: 120px;
       height: 120px;
@@ -138,12 +144,13 @@
       object-fit: cover;
       margin-bottom: var(--s-6);
       display: block;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+      background: #fff;
     }
     .hero__date {
       font-family: var(--font-sans);
       font-size: 0.85rem;
-      color: var(--ink-3);
+      color: rgba(255,255,255,0.7);
       margin-bottom: var(--s-6);
     }
     .hero__date .sep { display: inline-block; margin-inline: var(--s-3); opacity: 0.5; }
@@ -154,13 +161,14 @@
       line-height: 1;
       letter-spacing: -0.01em;
       margin-bottom: var(--s-6);
+      color: #fff;
     }
-    .hero__title .display { display: block; font-weight: 700; color: var(--ink); margin-top: var(--s-2); }
-    .hero__title .light { color: var(--ink-2); font-weight: 300; }
+    .hero__title .display { display: block; font-weight: 700; color: #fff; margin-top: var(--s-2); }
+    .hero__title .light { color: rgba(255,255,255,0.85); font-weight: 300; }
     .hero__tagline {
       font-size: 1.35rem;
       line-height: 1.5;
-      color: var(--ink-2);
+      color: rgba(255,255,255,0.8);
       max-width: 34ch;
       margin-bottom: var(--s-7);
     }
@@ -171,18 +179,19 @@
       font-family: var(--font-sans);
       font-weight: 600;
       font-size: 0.95rem;
-      color: var(--ink);
-      background: transparent;
-      border: 1.5px solid var(--ink);
+      color: var(--navy);
+      background: var(--accent);
+      border: none;
+      border-radius: 999px;
       padding: var(--s-3) var(--s-5);
-      transition: background .2s, color .2s;
+      transition: background .2s, transform .15s;
     }
-    .hero__cta:hover { background: var(--ink); color: var(--bg); }
+    .hero__cta:hover { background: var(--brass-hover); color: var(--navy); transform: translateY(-1px); }
 
     /* ---------- Notice banner (optional, from data) ---------- */
     .notice {
       background: var(--accent);
-      color: var(--bg);
+      color: var(--navy-deep);
       padding: var(--s-3) var(--s-5);
       font-family: var(--font-sans);
       font-weight: 500;
@@ -526,11 +535,11 @@
     .pillar__desc { font-family: var(--font-serif); color: var(--ink-2); font-size: 1rem; line-height: 1.6; }
 
     /* ---------- Visit ---------- */
-    .visit { background: var(--ink); color: var(--bg); padding-block: var(--s-10); }
-    .visit .section__title, .visit h2 { color: var(--bg); }
-    .visit .section__sub { color: rgba(237, 225, 200, 0.7); }
-    .visit .eyebrow { color: rgba(237, 225, 200, 0.55); }
-    .visit .eyebrow::before { background: rgba(237, 225, 200, 0.55); }
+    .visit { background: var(--navy); color: #fff; padding-block: var(--s-10); }
+    .visit .section__title, .visit h2 { color: #fff; }
+    .visit .section__sub { color: rgba(255,255,255,0.75); }
+    .visit .eyebrow { color: rgba(255,255,255,0.55); }
+    .visit .eyebrow::before { background: rgba(255,255,255,0.55); }
     .visit__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--s-8); align-items: start; }
     @media (max-width: 700px) { .visit__grid { grid-template-columns: 1fr; gap: var(--s-6); } }
     .visit__block h3 {
@@ -538,33 +547,33 @@
       font-weight: 600;
       font-size: 0.8rem;
       letter-spacing: 0.16em;
-      color: rgba(237, 225, 200, 0.55);
+      color: var(--accent);
       margin-bottom: var(--s-3);
     }
     .visit__block p, .visit__block a {
       font-family: var(--font-serif);
       font-size: 1.15rem;
-      color: var(--bg);
+      color: #fff;
     }
-    .visit__block a { border-color: rgba(237, 225, 200, 0.3); }
-    .visit__block a:hover { color: #d4a856; border-color: #d4a856; }
+    .visit__block a { border-color: rgba(255,255,255,0.3); }
+    .visit__block a:hover { color: var(--accent); border-color: var(--accent); }
     .visit__contact { display: grid; gap: var(--s-6); }
     .gabbai + .gabbai { margin-top: var(--s-3); }
 
     /* ---------- Footer ---------- */
     .footer {
-      background: var(--ink);
-      color: rgba(237, 225, 200, 0.55);
+      background: var(--navy-deep);
+      color: rgba(255,255,255,0.55);
       font-family: var(--font-sans);
       font-size: 0.82rem;
       padding-block: var(--s-6);
-      border-top: 1px solid rgba(237, 225, 200, 0.08);
+      border-top: 1px solid rgba(255,255,255,0.08);
       text-align: center;
     }
     .footer__blessing {
       font-family: var(--font-serif);
       font-size: 0.95rem;
-      color: rgba(237, 225, 200, 0.75);
+      color: rgba(255,255,255,0.8);
       margin-bottom: var(--s-2);
     }
     .footer__updated {
