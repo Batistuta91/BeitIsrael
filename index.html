@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#021D6B">
   <title>בית כנסת בית ישראל</title>
   <meta name="description" content="בית תפילה קהילתי — תפילות שחרית, מנחה ומעריב בכל יום, שיעורי תורה, ובית פתוח לכל יהודי.">
-  <link rel="icon" href="logo.jpg" type="image/jpeg">
-  <link rel="apple-touch-icon" href="logo.jpg">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,12 +119,14 @@
       text-decoration: none;
     }
     .topbar__brand img {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
       display: block;
       background: #fff;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px rgba(206, 166, 71, 0.5);
     }
     .topbar__nav { display: flex; gap: var(--s-5); }
     .topbar__nav a { color: rgba(255,255,255,0.8); border: none; font-weight: 500; }
@@ -138,14 +140,26 @@
       color: #fff;
     }
     .hero__logo {
-      width: 120px;
-      height: 120px;
+      width: 168px;
+      height: 168px;
       border-radius: 50%;
       object-fit: cover;
-      margin-bottom: var(--s-6);
+      margin: 0 auto var(--s-7);
       display: block;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
       background: #fff;
+      padding: 0;
+      box-sizing: border-box;
+      border: 5px solid #fff;
+      box-shadow:
+        0 0 0 2px rgba(206, 166, 71, 0.45),
+        0 12px 40px rgba(0,0,0,0.35);
+    }
+    @media (max-width: 640px) {
+      .hero__logo {
+        width: 132px;
+        height: 132px;
+        border-width: 4px;
+      }
     }
     .hero__date {
       font-family: var(--font-sans);
@@ -605,7 +619,7 @@
   <div class="topbar">
     <div class="wrap-wide topbar__row">
       <a href="#top" class="topbar__brand">
-        <img src="logo.jpg" alt="לוגו בית כנסת בית ישראל" width="42" height="42">
+        <img src="logo.png" alt="לוגו בית כנסת בית ישראל" width="42" height="42">
         <span data-bind="site.short_name">בית ישראל</span>
       </a>
       <nav class="topbar__nav" aria-label="ניווט ראשי">
@@ -623,7 +637,7 @@
     <!-- Hero -->
     <section class="hero">
       <div class="wrap">
-        <img class="hero__logo" src="logo.jpg" alt="לוגו בית כנסת בית ישראל" width="120" height="120">
+        <img class="hero__logo" src="logo.png" alt="לוגו בית כנסת בית ישראל" width="168" height="168">
         <div class="hero__date">
           <span data-bind="date.hebrew"></span>
           <span class="sep">·</span>
