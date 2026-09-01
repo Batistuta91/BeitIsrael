@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#021D6B">
-  <title>בית כנסת בית ישראל</title>
+  <title>בית כנסת בית ישראל — זמני תפילות בשבת</title>
   <meta name="description" content="בית תפילה קהילתי — תפילות שחרית, מנחה ומעריב בכל יום, שיעורי תורה, ובית פתוח לכל יהודי.">
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="apple-touch-icon" href="logo.png">
@@ -323,6 +322,39 @@
     }
     .time-row.time-row--strong .time-row__value { color: var(--accent); }
 
+    /* Haftarah row */
+    .time-row.time-row--haftara {
+      background: linear-gradient(to right, rgba(206, 166, 71, 0.08), transparent);
+      border: 1px solid var(--divider);
+      border-radius: 6px;
+      padding: var(--s-5) var(--s-5);
+      margin: var(--s-4) 0;
+    }
+    .time-row--haftara .time-row__label {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: 1.12rem;
+      color: var(--accent);
+    }
+    .time-row--haftara .time-row__value {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 1.15rem;
+    }
+
+    /* Shabbat times heading */
+    .shabbat__times-heading {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-3);
+      margin-bottom: var(--s-6);
+      display: inline-block;
+      margin-inline-start: auto;
+      margin-inline-end: auto;
+    }
+
     /* ---------- Weekday ---------- */
     .weekday { padding-block: var(--s-9); }
     .weekday__grid {
@@ -497,6 +529,88 @@
     }
     .torah__list li { border-bottom: 1px solid var(--hairline); padding-block: var(--s-3); }
     .torah__list li:last-child { border-bottom: none; }
+
+    /* ---------- Q&A Section ---------- */
+    .qa {
+      background: var(--bg-elev);
+      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
+    }
+    .qa__featured {
+      background: #f5f9fb;
+      border-inline-end: 3px solid #0066cc;
+      padding: var(--s-6);
+      margin-bottom: var(--s-7);
+      border-radius: 8px;
+    }
+    .qa__featured-date {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      color: var(--ink-3);
+      letter-spacing: 0.1em;
+      margin-bottom: var(--s-2);
+    }
+    .qa__featured-question {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #0066cc;
+      margin-bottom: var(--s-4);
+      line-height: 1.25;
+    }
+    .qa__featured-answer {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      color: var(--ink);
+      line-height: 1.7;
+      margin-bottom: var(--s-4);
+    }
+    .qa__source {
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: var(--ink-3);
+      font-style: italic;
+    }
+
+    .qa__archive {
+      margin-top: var(--s-8);
+      background: var(--bg-elev);
+      border: 1px solid var(--hairline);
+      border-radius: 12px;
+      padding: var(--s-5);
+    }
+    .qa__archive h3 {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      color: #0066cc;
+      margin-bottom: var(--s-4);
+      margin-top: 0;
+    }
+    .qa__list {
+      list-style: none;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-left: 4px;
+      margin: 0;
+      scrollbar-width: thin;
+      scrollbar-color: #0066cc transparent;
+    }
+    .qa__list::-webkit-scrollbar { width: 6px; }
+    .qa__list::-webkit-scrollbar-thumb {
+      background: #0066cc;
+      border-radius: 3px;
+    }
+    .qa__list li {
+      border-bottom: 1px solid var(--hairline);
+      padding-block: var(--s-3);
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .qa__list li:hover { background: var(--bg-2); }
+    .qa__list li:last-child { border-bottom: none; }
+    .qa__list li strong { color: #0066cc; font-family: var(--font-serif); }
     .torah__list a {
       display: flex;
       justify-content: space-between;
@@ -717,6 +831,7 @@
         <a href="#shabbat">שבת</a>
         <a href="#times">זמני תפילה</a>
         <a href="#torah">תורה</a>
+        <a href="#qa">שאלות</a>
         <a href="#classes">שיעורים</a>
         <a href="#visit">בואו אלינו</a>
         <a href="#donate">תרומות</a>
@@ -765,6 +880,7 @@
           <figcaption class="petiha__attr" data-bind="shabbat.petiha.reference"></figcaption>
         </figure>
 
+        <div class="shabbat__times-heading">זמני תפילות בשבת</div>
         <div class="shabbat__times" data-list="shabbat.times" data-template="tpl-time-row"></div>
       </div>
     </section>
@@ -813,6 +929,27 @@
         <div class="torah__archive" id="torah-archive">
           <h3>ארכיון דברי תורה</h3>
           <ul class="torah__list" data-list="torah.archive" data-template="tpl-torah-item"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q&A -->
+    <section class="qa" id="qa">
+      <div class="wrap">
+        <div class="eyebrow">הלכה ופסיקה</div>
+        <h2 class="section__title" data-bind="qa.title">שאלות ותשובות בהלכה.</h2>
+        <p class="section__sub" data-bind="qa.subtitle"></p>
+
+        <article class="qa__featured">
+          <div class="qa__featured-date" data-bind="qa.featured.date"></div>
+          <h3 class="qa__featured-question" data-bind="qa.featured.question"></h3>
+          <div class="qa__featured-answer" data-bind="qa.featured.answer"></div>
+          <div class="qa__source" data-bind="qa.featured.source"></div>
+        </article>
+
+        <div class="qa__archive" id="qa-archive">
+          <h3>שאלות קודמות</h3>
+          <ul class="qa__list" data-list="qa.archive" data-template="tpl-qa-item"></ul>
         </div>
       </div>
     </section>
@@ -935,7 +1072,7 @@
        ============================================================ -->
 
   <template id="tpl-time-row">
-    <div class="time-row">
+    <div class="time-row" data-class="is_haftara:time-row--haftara">
       <div class="time-row__label">
         <span data-bind="label"></span>
         <span class="note" data-bind="note"></span>
@@ -991,6 +1128,13 @@
       <span data-bind="name"></span><br>
       <a data-attr-href-tel="phone" data-bind="phone_display" href="#" dir="ltr" style="unicode-bidi: embed;"></a>
     </p>
+  </template>
+
+  <template id="tpl-qa-item">
+    <li>
+      <strong data-bind="question"></strong>
+      <div style="font-size: 0.85rem; color: var(--ink-3); margin-top: 4px;" data-bind="date"></div>
+    </li>
   </template>
 
   <!-- ============================================================
