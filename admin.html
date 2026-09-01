@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -678,6 +677,43 @@
         </div>
       </details>
 
+      <!-- Q&A -->
+      <details class="panel">
+        <summary>שאלות ותשובות בהלכה</summary>
+        <div class="content">
+          <div class="field">
+            <label>כותרת</label>
+            <input type="text" data-path="qa.title">
+          </div>
+          <div class="field">
+            <label>תת־כותרת</label>
+            <textarea data-path="qa.subtitle" rows="2"></textarea>
+          </div>
+          <hr style="border:none; border-top:1px solid var(--border); margin: 14px 0;">
+          <div class="field"><strong style="font-family: var(--font-serif); font-size: 1.05rem;">שאלה ותשובה במדור</strong></div>
+          <div class="field">
+            <label>תאריך</label>
+            <input type="text" data-path="qa.featured.date" placeholder="01.09.2026">
+          </div>
+          <div class="field">
+            <label>השאלה</label>
+            <textarea data-path="qa.featured.question" rows="3"></textarea>
+          </div>
+          <div class="field">
+            <label>התשובה</label>
+            <textarea data-path="qa.featured.answer" rows="6"></textarea>
+          </div>
+          <div class="field">
+            <label>מקור (אפשר להשאיר ריק)</label>
+            <input type="text" data-path="qa.featured.source" placeholder="שולחן ערוך או״ח תנא">
+          </div>
+          <hr style="border:none; border-top:1px solid var(--border); margin: 14px 0;">
+          <div class="field"><strong style="font-family: var(--font-serif); font-size: 1.05rem;">ארכיון שאלות</strong></div>
+          <div class="list-items" id="qa-archive-list"></div>
+          <button class="add-btn" data-add="qa.archive" data-template="qa-archive">+ הוסף שאלה לארכיון</button>
+        </div>
+      </details>
+
       <!-- Classes -->
       <details class="panel">
         <summary>לוח שיעורים</summary>
@@ -915,6 +951,35 @@
           <label>קישור (URL)</label>
           <input type="text" data-key="url" data-monospace value="#">
         </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-qa-archive">
+    <div class="list-item">
+      <div class="list-item__header">
+        <span class="list-item__num"></span>
+        <div class="list-item__controls">
+          <button class="icon-btn" data-move="up">↑</button>
+          <button class="icon-btn" data-move="down">↓</button>
+          <button class="icon-btn icon-btn--danger" data-remove>מחק</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>תאריך</label>
+        <input type="text" data-key="date" placeholder="01.09.2026">
+      </div>
+      <div class="field">
+        <label>השאלה</label>
+        <textarea data-key="question" rows="3"></textarea>
+      </div>
+      <div class="field">
+        <label>התשובה</label>
+        <textarea data-key="answer" rows="4"></textarea>
+      </div>
+      <div class="field">
+        <label>מקור</label>
+        <input type="text" data-key="source">
       </div>
     </div>
   </template>
@@ -1172,6 +1237,7 @@
     { container: 'shabbat-times-list', path: 'shabbat.times',    template: 'shabbat-time',   empty: { label: '', value: '', note: '' } },
     { container: 'shacharit-list',     path: 'weekday.shacharit', template: 'shacharit',      empty: { label: '', value: '' } },
     { container: 'torah-archive-list', path: 'torah.archive',    template: 'torah-archive',  empty: { title: '', parasha: '', url: '#' } },
+    { container: 'qa-archive-list',    path: 'qa.archive',        template: 'qa-archive',     empty: { date: '', question: '', answer: '', source: '' } },
     { container: 'classes-list',       path: 'classes',           template: 'class',          empty: { title: '', teacher: '', where: '', when: '' } },
     { container: 'pillars-list',       path: 'community.pillars', template: 'pillar',         empty: { marker: '', name: '', desc: '' } },
     { container: 'gabbaim-list',       path: 'contact.gabbaim',   template: 'gabbai',         empty: { name: '', phone: '', phone_display: '' } }
@@ -1447,9 +1513,9 @@
 
 
   // ===== Admin password gate (client-side) =====
-  // Stored only in localStorage of this browser. Not a server-side secret.
-  const PW_STORAGE = 'beit-yisrael-admin-pw';
+  // Session management
   const SESSION_KEY = 'beit-yisrael-admin-session';
+  let globalPwHash = null; // Loaded from data.json
 
   async function sha256(text) {
     const data = new TextEncoder().encode(text);
@@ -1457,11 +1523,29 @@
     return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  function getStoredPwHash() {
-    try { return localStorage.getItem(PW_STORAGE); } catch (e) { return null; }
+  // Load password hash from data.json
+  async function loadPwHashFromData() {
+    try {
+      const res = await fetch('data.json');
+      const data = await res.json();
+      return data._admin?.password_hash || null;
+    } catch (e) {
+      console.warn('Could not load password from data.json:', e);
+      return null;
+    }
   }
+
+  async function getStoredPwHash() {
+    if (globalPwHash === null) {
+      globalPwHash = await loadPwHashFromData();
+    }
+    return globalPwHash;
+  }
+
   function setStoredPwHash(hash) {
-    localStorage.setItem(PW_STORAGE, hash);
+    globalPwHash = hash;
+    console.log('סיסמה חדשה הוגדרה. יש לעדכן את data.json בתיקייה:');
+    console.log(JSON.stringify({ "_admin": { "password_hash": hash } }, null, 2));
   }
   function isSessionUnlocked() {
     try { return sessionStorage.getItem(SESSION_KEY) === '1'; } catch (e) { return false; }
@@ -1505,7 +1589,7 @@
     const err = document.getElementById('login-error');
     err.textContent = '';
     const pw = document.getElementById('login-password').value;
-    const stored = getStoredPwHash();
+    const stored = await getStoredPwHash();
 
     if (!stored) {
       // First-time setup
@@ -1518,10 +1602,15 @@
         err.textContent = 'הסיסמאות אינן תואמות.';
         return;
       }
-      setStoredPwHash(await sha256(pw));
+      const newHash = await sha256(pw);
+      setStoredPwHash(newHash);
+      err.textContent = '✓ סיסמה הוגדרה בהצלחה! עדכן את data.json עם ה-hash שהופיע בעוד מעט.';
+      err.style.color = '#2d6a4f';
       setSessionUnlocked(true);
-      hideLoginGate();
-      continueBootAfterAuth();
+      setTimeout(() => {
+        hideLoginGate();
+        continueBootAfterAuth();
+      }, 2000);
       return;
     }
 
@@ -1550,7 +1639,7 @@
     const cur = document.getElementById('pw-current').value;
     const nw = document.getElementById('pw-new').value;
     const nw2 = document.getElementById('pw-new2').value;
-    const stored = getStoredPwHash();
+    const stored = await getStoredPwHash();
     if (!stored) {
       status.textContent = 'אין סיסמה מוגדרת.';
       return;
@@ -1570,11 +1659,12 @@
       status.style.color = 'var(--danger)';
       return;
     }
-    setStoredPwHash(await sha256(nw));
+    const newHash = await sha256(nw);
+    setStoredPwHash(newHash);
     document.getElementById('pw-current').value = '';
     document.getElementById('pw-new').value = '';
     document.getElementById('pw-new2').value = '';
-    status.textContent = 'הסיסמה עודכנה בהצלחה ✓';
+    status.textContent = '✓ הסיסמה עודכנה. עדכן את data.json עם ה-hash החדש (פרטים בקונסול).';
     status.style.color = 'var(--success)';
   });
 
@@ -1629,7 +1719,7 @@
 
   (async function boot() {
     continueBootAfterAuth = runAdminBoot;
-    const stored = getStoredPwHash();
+    const stored = await getStoredPwHash();
     if (!isSessionUnlocked()) {
       showLoginGate(!stored);
       return;
