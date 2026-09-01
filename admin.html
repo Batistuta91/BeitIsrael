@@ -661,6 +661,71 @@
         </div>
       </details>
 
+
+      <!-- Donations -->
+      <details class="panel">
+        <summary>תרומות</summary>
+        <div class="content">
+          <div class="field">
+            <label>
+              <input type="checkbox" id="donations-enabled" style="width:auto; margin-left:8px;">
+              הצג סעיף תרומות באתר
+            </label>
+          </div>
+          <div class="field">
+            <label>כותרת</label>
+            <input type="text" data-path="donations.title" placeholder="תרומות לבית הכנסת.">
+          </div>
+          <div class="field">
+            <label>תת־כותרת <span class="hint">אופציונלי</span></label>
+            <textarea data-path="donations.subtitle" rows="2" placeholder="תרומותיכם מאפשרות את המשך פעילות בית הכנסת."></textarea>
+          </div>
+          <hr style="border:none; border-top:1px solid var(--border); margin: 14px 0;">
+          <div class="field"><strong style="font-family: var(--font-serif); font-size: 1.05rem;">העברה בנקאית</strong></div>
+          <div class="fields-row">
+            <div class="field">
+              <label>שם הבנק</label>
+              <input type="text" data-path="donations.bank_name" placeholder="לאומי / הפועלים / מזרחי...">
+            </div>
+            <div class="field">
+              <label>מספר סניף</label>
+              <input type="text" data-path="donations.branch" data-monospace placeholder="123">
+            </div>
+          </div>
+          <div class="fields-row">
+            <div class="field">
+              <label>מספר חשבון</label>
+              <input type="text" data-path="donations.account" data-monospace placeholder="12345678">
+            </div>
+            <div class="field">
+              <label>שם בעל החשבון</label>
+              <input type="text" data-path="donations.account_name" placeholder="עמותת בית ישראל">
+            </div>
+          </div>
+          <div class="field">
+            <label>IBAN <span class="hint">אופציונלי</span></label>
+            <input type="text" data-path="donations.iban" data-monospace placeholder="IL...">
+          </div>
+          <hr style="border:none; border-top:1px solid var(--border); margin: 14px 0;">
+          <div class="field"><strong style="font-family: var(--font-serif); font-size: 1.05rem;">ביט / פייבוקס</strong></div>
+          <div class="fields-row">
+            <div class="field">
+              <label>טלפון לביט</label>
+              <input type="tel" data-path="donations.bit_phone" data-monospace placeholder="052-0000000">
+            </div>
+            <div class="field">
+              <label>פייבוקס <span class="hint">טלפון או קישור</span></label>
+              <input type="text" data-path="donations.paybox" data-monospace placeholder="052-0000000">
+            </div>
+          </div>
+          <hr style="border:none; border-top:1px solid var(--border); margin: 14px 0;">
+          <div class="field">
+            <label>הערה לתורמים <span class="hint">אופציונלי</span></label>
+            <textarea data-path="donations.note" rows="2" placeholder="למשל: נא לציין בפרטי ההעברה &quot;תרומה לבית הכנסת&quot;"></textarea>
+          </div>
+        </div>
+      </details>
+
       <!-- Footer -->
       <details class="panel">
         <summary>תחתית האתר</summary>
@@ -1035,6 +1100,7 @@
     fillSimpleFields();
     renderAllLists();
     renderWeekdayTable();
+    setupDonationsEnabled();
   }
 
   // ------- Add button wiring -------
@@ -1279,6 +1345,19 @@
   }
 
   document.getElementById('btn-hebcal')?.addEventListener('click', pullFromHebcal);
+
+
+  // Donations enabled checkbox
+  function setupDonationsEnabled() {
+    const cb = document.getElementById('donations-enabled');
+    if (!cb) return;
+    if (!state.data.donations) state.data.donations = {};
+    cb.checked = !!state.data.donations.enabled;
+    cb.onchange = () => {
+      state.data.donations.enabled = cb.checked;
+      markDirty();
+    };
+  }
 
   // ------- Boot -------
 
