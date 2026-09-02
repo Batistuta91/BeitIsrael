@@ -389,6 +389,7 @@ function setupDonationsEnabled() {
 }
 
 // ===== Admin password gate =====
+// Password hash is stored in JSON: _admin.password_hash (JSONBin / data.json)
 const DEFAULT_PW_HASH = '7dd1df78e3a748c6f5f1c38e5b5b33785b0668e75eff595bb4e1f46a4339aebf'; // beitisrael
 const SESSION_KEY = 'beit-yisrael-admin-session';
 let globalPwHash = null;
@@ -613,11 +614,11 @@ async function runAdminBoot() {
 
 (async function boot() {
   continueBootAfterAuth = runAdminBoot;
+  // Always require password on every full page load (do not auto-enter from session)
+  try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+  document.getElementById('admin-main')?.classList.add('hidden');
+  document.getElementById('save-bar')?.classList.add('hidden');
+  document.getElementById('login-gate')?.classList.remove('hidden');
   const stored = await getStoredPwHash();
-  if (!isSessionUnlocked()) {
-    showLoginGate(!stored);
-    return;
-  }
-  hideLoginGate();
-  await runAdminBoot();
+  showLoginGate(!stored);
 })();
