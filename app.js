@@ -247,19 +247,37 @@ function bindElement(el, data) {
   }
 }
 
+function isHaftaraItem(item) {
+  if (!item) return false;
+  if (item.is_haftara) return true;
+  const label = (item.label || '').toString();
+  return label.includes('הפטרה') || label.toLowerCase().includes('haftar');
+}
+
 function renderList(containerEl, templateId, items) {
   const tpl = document.getElementById(templateId);
   if (!tpl || !Array.isArray(items)) return;
   containerEl.innerHTML = '';
   items.forEach(item => {
+    const row = Object.assign({}, item);
+    if (isHaftaraItem(row)) {
+      row.is_haftara = true;
+      if ((!row.value || !String(row.value).trim()) && row.note && String(row.note).trim()) {
+        row.value = String(row.note).trim();
+        row.note = '';
+      }
+    }
+
     const clone = tpl.content.cloneNode(true);
     const root = clone.querySelector('[data-class]');
     if (root && root.dataset.class) {
       const [flag, cls] = root.dataset.class.split(':');
-      if (item[flag]) root.classList.add(cls);
+      if (row[flag] || (flag === 'is_haftara' && isHaftaraItem(row))) {
+        root.classList.add(cls);
+      }
     }
     clone.querySelectorAll('[data-bind], [data-if], [data-attr-href], [data-attr-href-tel], [data-attr-href-mailto], [data-attr-target]')
-      .forEach(el => bindElement(el, item));
+      .forEach(el => bindElement(el, row));
     containerEl.appendChild(clone);
   });
 }
