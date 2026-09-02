@@ -1,1 +1,477 @@
-PLACEHOLDER_WILL_FAIL
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ניהול תוכן · בית ישראל</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f2ea; --panel: #ffffff; --panel-2: #faf7ef;
+      --ink: #1e1611; --ink-2: #4d3b2c; --ink-3: #8a7a68;
+      --accent: #7d1e28; --accent-2: #9c3639; --success: #2d6a4f; --danger: #c53030;
+      --border: rgba(30, 22, 17, 0.14); --border-strong: rgba(30, 22, 17, 0.28);
+      --font-serif: 'Frank Ruhl Libre', serif; --font-sans: 'Assistant', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      background: var(--bg); color: var(--ink); font-family: var(--font-sans);
+      line-height: 1.5; direction: rtl; text-align: right; padding-bottom: 120px;
+    }
+    .wrap { max-width: 780px; margin-inline: auto; padding: 24px 20px; }
+    header.top {
+      background: var(--ink); color: var(--bg); padding: 20px 0; border-bottom: 4px solid var(--accent);
+    }
+    header.top .wrap {
+      display: flex; justify-content: space-between; align-items: center; padding-block: 0;
+    }
+    header.top h1 {
+      font-family: var(--font-serif); font-weight: 500; font-size: 1.5rem;
+      display: flex; align-items: center; gap: 0.7rem;
+    }
+    header.top h1 img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    header.top a { color: var(--bg); opacity: 0.8; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    header.top a:hover { opacity: 1; }
+    .setup {
+      background: #fff8e1; border: 2px solid #d4a856; padding: 20px; border-radius: 4px; margin-bottom: 24px;
+    }
+    .setup h2 { font-family: var(--font-serif); font-size: 1.25rem; color: var(--accent); margin-bottom: 12px; }
+    .setup ol { padding-inline-start: 20px; margin: 12px 0; font-size: 0.95rem; }
+    .setup li { margin-bottom: 6px; color: var(--ink-2); }
+    .setup a { color: var(--accent); font-weight: 600; }
+    .setup .form-row { margin-top: 16px; }
+    .setup .form-row label {
+      display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; color: var(--ink-2);
+    }
+    .setup .form-row input {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--border-strong); border-radius: 3px;
+      font-family: Menlo, Consolas, monospace; font-size: 0.9rem; direction: ltr; text-align: left;
+    }
+    .setup .actions { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+    details.panel {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
+      margin-bottom: 12px; overflow: hidden;
+    }
+    details.panel[open] { border-color: var(--border-strong); }
+    details.panel summary {
+      padding: 16px 20px; font-family: var(--font-serif); font-weight: 500; font-size: 1.15rem;
+      cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
+      user-select: none;
+    }
+    details.panel summary::-webkit-details-marker { display: none; }
+    details.panel summary::after { content: '＋'; font-family: var(--font-sans); font-size: 1.3rem; color: var(--ink-3); font-weight: 300; }
+    details.panel[open] summary::after { content: '−'; }
+    details.panel > .content { padding: 0 20px 20px; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-weight: 600; font-size: 0.8rem; color: var(--ink-2); margin-bottom: 4px; }
+    .field .hint { font-size: 0.78rem; color: var(--ink-3); font-weight: 400; margin-inline-start: 6px; }
+    .field input[type=text], .field textarea, .field input[type=email], .field input[type=tel] {
+      width: 100%; padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 3px;
+      font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink); background: #fff;
+      direction: rtl; text-align: right;
+    }
+    .field textarea { resize: vertical; min-height: 60px; font-family: var(--font-serif); line-height: 1.5; }
+    .field input:focus, .field textarea:focus {
+      outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(125, 30, 40, 0.15);
+    }
+    .field input[data-monospace] { font-family: Menlo, monospace; direction: ltr; text-align: left; }
+    .fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 500px) { .fields-row { grid-template-columns: 1fr; } }
+    .list-items { display: grid; gap: 10px; }
+    .list-item {
+      background: var(--panel-2); border: 1px solid var(--border); border-radius: 3px;
+      padding: 12px 14px; position: relative;
+    }
+    .list-item__header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .list-item__num { font-family: var(--font-serif); font-weight: 700; color: var(--accent); font-size: 1.05rem; }
+    .list-item__controls { display: flex; gap: 6px; }
+    .icon-btn {
+      background: transparent; border: 1px solid var(--border); color: var(--ink-2); cursor: pointer;
+      padding: 4px 10px; font-size: 0.85rem; border-radius: 3px; font-family: var(--font-sans);
+    }
+    .icon-btn:hover { background: var(--bg); border-color: var(--border-strong); }
+    .icon-btn.icon-btn--danger:hover { background: #fee; color: var(--danger); border-color: var(--danger); }
+    .add-btn {
+      background: transparent; border: 1.5px dashed var(--border-strong); color: var(--ink-2);
+      padding: 10px; width: 100%; cursor: pointer; font-family: var(--font-sans); font-weight: 600;
+      font-size: 0.9rem; margin-top: 10px; border-radius: 3px;
+    }
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .weekday-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .weekday-table th, .weekday-table td { border: 1px solid var(--border); padding: 6px; text-align: right; }
+    .weekday-table th {
+      background: var(--panel-2); font-family: var(--font-sans); font-weight: 600;
+      font-size: 0.8rem; color: var(--ink-2);
+    }
+    .weekday-table td { background: #fff; }
+    .weekday-table .day-name { font-family: var(--font-serif); font-weight: 500; padding: 8px 10px; width: 100px; }
+    .weekday-table input {
+      width: 100%; border: none; padding: 6px; font-family: Menlo, monospace; font-size: 0.95rem;
+      text-align: center; background: transparent; direction: ltr;
+    }
+    .weekday-table input:focus { outline: 2px solid var(--accent); }
+    .save-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); color: var(--bg);
+      padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+      gap: 14px; box-shadow: 0 -4px 12px rgba(0,0,0,0.12); z-index: 100;
+    }
+    .save-bar .wrap {
+      padding: 0; display: flex; justify-content: space-between; align-items: center;
+      width: 100%; max-width: 780px;
+    }
+    .save-bar__status { font-size: 0.9rem; color: rgba(245, 242, 234, 0.85); font-family: var(--font-serif); }
+    .save-bar__status.status--success { color: #90ee90; }
+    .save-bar__status.status--error { color: #ff9090; }
+    .save-bar__actions { display: flex; gap: 10px; }
+    button.primary {
+      background: var(--accent); color: white; border: none; padding: 10px 22px;
+      font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 3px;
+    }
+    button.primary:hover { background: var(--accent-2); }
+    button.primary:disabled { background: #999; cursor: not-allowed; }
+    button.secondary {
+      background: transparent; color: var(--bg); border: 1px solid rgba(245, 242, 234, 0.4);
+      padding: 10px 18px; font-family: var(--font-sans); font-weight: 500; font-size: 0.9rem;
+      cursor: pointer; border-radius: 3px;
+    }
+    button.secondary:hover { border-color: var(--bg); }
+    #loading {
+      text-align: center; padding: 60px 20px; color: var(--ink-3);
+      font-family: var(--font-serif); font-size: 1.1rem;
+    }
+    #login-gate {
+      max-width: 420px; margin: 80px auto; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 8px; padding: 28px 24px; box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+    }
+    #login-gate h2 { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 8px; color: var(--ink); }
+    #login-gate .muted { margin-bottom: 18px; display: block; }
+    #login-gate .field { margin-bottom: 14px; }
+    #login-gate input[type=password], #login-gate input[type=text] {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 3px;
+      font-family: var(--font-sans); font-size: 1rem;
+    }
+    #login-gate input:focus {
+      outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(125, 30, 40, 0.15);
+    }
+    #login-error { color: var(--danger); font-size: 0.9rem; margin-top: 8px; min-height: 1.2em; }
+    #login-gate .actions { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+    .hidden { display: none !important; }
+    .muted { color: var(--ink-3); font-size: 0.85rem; }
+    .connection-badge {
+      display: inline-block; background: var(--success); color: white; padding: 3px 10px;
+      border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-inline-start: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>
+        <img src="logo.png" alt="" width="36" height="36">
+        ניהול תוכן <span id="connection-badge" class="connection-badge hidden">מחובר</span>
+      </h1>
+      <a href="./index.html">→ לאתר הציבורי</a>
+    </div>
+  </header>
+
+  <div id="login-gate">
+    <div class="wrap" style="padding:0">
+      <h2 id="login-title">כניסה לניהול</h2>
+      <span class="muted" id="login-hint">הזינו את סיסמת הניהול כדי לערוך את תוכן האתר.</span>
+      <div class="field">
+        <label for="login-password">סיסמה</label>
+        <input type="password" id="login-password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <div class="field hidden" id="login-password2-wrap">
+        <label for="login-password2">אימות סיסמה</label>
+        <input type="password" id="login-password2" autocomplete="new-password" placeholder="••••••••">
+      </div>
+      <div class="actions">
+        <button class="primary" id="btn-login" type="button">כניסה</button>
+      </div>
+      <div id="login-error"></div>
+    </div>
+  </div>
+
+  <div class="wrap hidden" id="admin-main">
+    <div id="setup" class="setup hidden">
+      <h2>הגדרה ראשונית — פעם אחת בלבד</h2>
+      <ol>
+        <li>גשו ל־<a href="https://jsonbin.io" target="_blank" rel="noopener">jsonbin.io</a> והירשמו חינם.</li>
+        <li>לחצו על <strong>Create Bin</strong>, הדביקו את תוכן הקובץ <code>data.json</code>, ושמרו.</li>
+        <li>בעמוד ה־Bin שנוצר, העתיקו את ה־<strong>Bin ID</strong>.</li>
+        <li>בתפריט הפרופיל > API Keys, העתיקו את ה־<strong>Master Key</strong>.</li>
+        <li>הדביקו אותם למטה ולחצו "התחבר".</li>
+      </ol>
+      <div class="form-row">
+        <label for="bin-id">Bin ID</label>
+        <input id="bin-id" type="text" placeholder="65a4b8c9dc7465401234abcd" data-monospace>
+      </div>
+      <div class="form-row">
+        <label for="master-key">Master Key</label>
+        <input id="master-key" type="password" placeholder="$2b$10$..." data-monospace>
+      </div>
+      <div class="actions">
+        <button class="primary" id="btn-connect">התחבר</button>
+        <span class="muted">המפתחות נשמרים בדפדפן שלכם בלבד.</span>
+      </div>
+    </div>
+
+    <div id="loading">טוען תוכן נוכחי...</div>
+
+    <div id="editor" class="hidden">
+      <details class="panel">
+        <summary>סיסמת ניהול</summary>
+        <div class="content">
+          <div class="field"><label>סיסמה נוכחית</label><input type="password" id="pw-current" autocomplete="current-password"></div>
+          <div class="field"><label>סיסמה חדשה</label><input type="password" id="pw-new" autocomplete="new-password"></div>
+          <div class="field"><label>אימות סיסמה חדשה</label><input type="password" id="pw-new2" autocomplete="new-password"></div>
+          <button type="button" class="primary" id="btn-change-pw" style="margin-top:8px">עדכן סיסמה</button>
+          <span id="pw-status" class="muted" style="margin-right:12px"></span>
+          <p class="muted" style="margin-top:12px">לאחר שינוי סיסמה לחצו "שמור שינויים" כדי לעדכן בשרת.</p>
+        </div>
+      </details>
+
+      <details class="panel" open>
+        <summary>באנר הודעה</summary>
+        <div class="content">
+          <div class="field">
+            <label for="notice">טקסט ההודעה <span class="hint">ריק = מוסתר</span></label>
+            <input type="text" id="notice" data-path="notice" placeholder="למשל: מנחה בערב חג בשעה 18:20">
+          </div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>הגדרות אתר</summary>
+        <div class="content">
+          <div class="field"><label>שם בית הכנסת</label><input type="text" data-path="site.name"></div>
+          <div class="field"><label>שם קצר</label><input type="text" data-path="site.short_name"></div>
+          <div class="field"><label>תיאור קצר</label><textarea data-path="site.tagline" rows="2"></textarea></div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>תאריך</summary>
+        <div class="content">
+          <div class="field" style="background:#f0f7f0;border:1px solid #b7d7b7;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.9rem;color:#2e6b2e;">התאריך מתעדכן אוטומטית באתר הציבורי מ־Hebcal.</div>
+          <div class="fields-row">
+            <div class="field"><label>תאריך עברי</label><input type="text" data-path="date.hebrew" readonly style="background:#f7f7f7;"></div>
+            <div class="field"><label>תאריך לועזי</label><input type="text" data-path="date.gregorian" readonly style="background:#f7f7f7;"></div>
+          </div>
+          <div class="field"><label>עדכון אחרון</label><input type="text" data-path="_updated_display" placeholder="26.08.2026"></div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>שבת הקרובה</summary>
+        <div class="content">
+          <div class="field" style="background:#f0f7f0;border:1px solid #b7d7b7;border-radius:8px;padding:12px 14px;margin-bottom:14px;">
+            <strong style="color:#2e6b2e;">אוטומטי מ־Hebcal</strong>
+            <div style="font-size:0.9rem;color:#444;margin-top:4px;">פרשה, נרות והבדלה מתעדכנים באתר הציבורי.</div>
+            <button type="button" id="btn-hebcal" class="primary" style="margin-top:10px;">משוך מ־Hebcal עכשיו</button>
+            <span id="hebcal-status" class="muted" style="margin-right:10px;"></span>
+          </div>
+          <div class="field"><label>שם הפרשה</label><input type="text" data-path="shabbat.parasha" readonly style="background:#f7f7f7;"></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><strong style="font-family:var(--font-serif);font-size:1.05rem;">פסוק פתיחה</strong></div>
+          <div class="fields-row">
+            <div class="field"><label>אות פותחת</label><input type="text" data-path="shabbat.petiha.initial" maxlength="2"></div>
+            <div class="field"><label>מקור</label><input type="text" data-path="shabbat.petiha.reference"></div>
+          </div>
+          <div class="field"><label>טקסט הפסוק</label><textarea data-path="shabbat.petiha.text" rows="3"></textarea></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><strong style="font-family:var(--font-serif);font-size:1.05rem;">זמני שבת</strong></div>
+          <div class="list-items" id="shabbat-times-list"></div>
+          <button class="add-btn" data-add="shabbat.times" data-template="shabbat-time">+ הוסף זמן</button>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>ימי חול</summary>
+        <div class="content">
+          <div class="field"><label>כותרת</label><input type="text" data-path="weekday.title"></div>
+          <div class="field"><label>תת־כותרת</label><textarea data-path="weekday.subtitle" rows="2"></textarea></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><strong style="font-family:var(--font-serif);font-size:1.05rem;">מנחה ומעריב</strong></div>
+          <table class="weekday-table" id="weekday-table">
+            <thead><tr><th>יום</th><th>מנחה</th><th>מעריב</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><strong style="font-family:var(--font-serif);font-size:1.05rem;">שחרית</strong></div>
+          <div class="list-items" id="shacharit-list"></div>
+          <button class="add-btn" data-add="weekday.shacharit" data-template="shacharit">+ הוסף שורת שחרית</button>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><label>הערה</label><textarea data-path="weekday.note" rows="3"></textarea></div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>תורת השבוע</summary>
+        <div class="content">
+          <div class="field"><label>כותרת</label><input type="text" data-path="torah.title"></div>
+          <div class="field"><label>תת־כותרת</label><textarea data-path="torah.subtitle" rows="2"></textarea></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><strong style="font-family:var(--font-serif);font-size:1.05rem;">דבר תורה השבועי</strong></div>
+          <div class="field"><label>תאריך ופרשה</label><input type="text" data-path="torah.featured.date"></div>
+          <div class="field"><label>כותרת</label><input type="text" data-path="torah.featured.title"></div>
+          <div class="field"><label>גוף</label><textarea data-path="torah.featured.excerpt" rows="6"></textarea></div>
+          <div class="fields-row">
+            <div class="field"><label>שם המחבר</label><input type="text" data-path="torah.featured.author"></div>
+            <div class="field"><label>תפקיד</label><input type="text" data-path="torah.featured.author_role"></div>
+          </div>
+          <div class="field"><label>אות ראשונה</label><input type="text" data-path="torah.featured.author_initial" maxlength="1"></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><strong style="font-family:var(--font-serif);font-size:1.05rem;">ארכיון</strong></div>
+          <div class="list-items" id="torah-archive-list"></div>
+          <button class="add-btn" data-add="torah.archive" data-template="torah-archive">+ הוסף לארכיון</button>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>שאלות ותשובות</summary>
+        <div class="content">
+          <div class="field"><label>כותרת</label><input type="text" data-path="qa.title"></div>
+          <div class="field"><label>תת־כותרת</label><textarea data-path="qa.subtitle" rows="2"></textarea></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="field"><label>תאריך</label><input type="text" data-path="qa.featured.date"></div>
+          <div class="field"><label>השאלה</label><textarea data-path="qa.featured.question" rows="3"></textarea></div>
+          <div class="field"><label>התשובה</label><textarea data-path="qa.featured.answer" rows="6"></textarea></div>
+          <div class="field"><label>מקור</label><input type="text" data-path="qa.featured.source"></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="list-items" id="qa-archive-list"></div>
+          <button class="add-btn" data-add="qa.archive" data-template="qa-archive">+ הוסף לארכיון</button>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>לוח שיעורים</summary>
+        <div class="content">
+          <div class="field"><label>כותרת</label><input type="text" data-path="classes_section.title"></div>
+          <div class="field"><label>תת־כותרת</label><textarea data-path="classes_section.subtitle" rows="2"></textarea></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="list-items" id="classes-list"></div>
+          <button class="add-btn" data-add="classes" data-template="class">+ הוסף שיעור</button>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>קהילה</summary>
+        <div class="content">
+          <div class="field"><label>כותרת</label><input type="text" data-path="community.title"></div>
+          <div class="field"><label>תיאור</label><textarea data-path="community.intro" rows="4"></textarea></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="list-items" id="pillars-list"></div>
+          <button class="add-btn" data-add="community.pillars" data-template="pillar">+ הוסף עמוד</button>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>יצירת קשר</summary>
+        <div class="content">
+          <div class="field"><label>כתובת</label><input type="text" data-path="contact.address"></div>
+          <div class="field"><label>ברוכים הבאים</label><textarea data-path="contact.welcome" rows="2"></textarea></div>
+          <div class="field"><label>איך מגיעים</label><textarea data-path="contact.directions" rows="3"></textarea></div>
+          <div class="field"><label>קישור למפה</label><input type="text" data-path="contact.map_url" data-monospace></div>
+          <div class="field"><label>דוא״ל</label><input type="email" data-path="contact.email" data-monospace></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="list-items" id="gabbaim-list"></div>
+          <button class="add-btn" data-add="contact.gabbaim" data-template="gabbai">+ הוסף גבאי</button>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>תרומות</summary>
+        <div class="content">
+          <div class="field"><label><input type="checkbox" id="donations-enabled" style="width:auto;margin-left:8px;"> הצג סעיף תרומות</label></div>
+          <div class="field"><label>כותרת</label><input type="text" data-path="donations.title"></div>
+          <div class="field"><label>תת־כותרת</label><textarea data-path="donations.subtitle" rows="2"></textarea></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="fields-row">
+            <div class="field"><label>שם הבנק</label><input type="text" data-path="donations.bank_name"></div>
+            <div class="field"><label>סניף</label><input type="text" data-path="donations.branch" data-monospace></div>
+          </div>
+          <div class="fields-row">
+            <div class="field"><label>חשבון</label><input type="text" data-path="donations.account" data-monospace></div>
+            <div class="field"><label>שם החשבון</label><input type="text" data-path="donations.account_name"></div>
+          </div>
+          <div class="field"><label>IBAN</label><input type="text" data-path="donations.iban" data-monospace></div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="fields-row">
+            <div class="field"><label>ביט</label><input type="tel" data-path="donations.bit_phone" data-monospace></div>
+            <div class="field"><label>פייבוקס</label><input type="text" data-path="donations.paybox" data-monospace></div>
+          </div>
+          <div class="field"><label>הערה</label><textarea data-path="donations.note" rows="2"></textarea></div>
+        </div>
+      </details>
+
+      <details class="panel">
+        <summary>תחתית האתר</summary>
+        <div class="content">
+          <div class="field"><label>ברכה</label><input type="text" data-path="footer.blessing"></div>
+          <div class="field"><label>זכויות יוצרים</label><input type="text" data-path="footer.copyright"></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div id="save-bar" class="save-bar hidden">
+    <div class="wrap">
+      <span class="save-bar__status" id="save-status">כל השינויים נשמרו</span>
+      <div class="save-bar__actions">
+        <button class="secondary" id="btn-reload">רענן מהשרת</button>
+        <button class="secondary" id="btn-logout">התנתק</button>
+        <button class="primary" id="btn-save">שמור שינויים</button>
+      </div>
+    </div>
+  </div>
+
+  <template id="tpl-shabbat-time">
+    <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="fields-row"><div class="field"><label>תיאור</label><input type="text" data-key="label"></div><div class="field"><label>שעה</label><input type="text" data-key="value" data-monospace></div></div>
+    <div class="field"><label>הערה</label><input type="text" data-key="note"></div></div>
+  </template>
+  <template id="tpl-shacharit">
+    <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="fields-row"><div class="field"><label>תיאור</label><input type="text" data-key="label"></div><div class="field"><label>שעה</label><input type="text" data-key="value" data-monospace></div></div></div>
+  </template>
+  <template id="tpl-torah-archive">
+    <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="field"><label>כותרת</label><input type="text" data-key="title"></div>
+    <div class="fields-row"><div class="field"><label>פרשה</label><input type="text" data-key="parasha"></div><div class="field"><label>קישור</label><input type="text" data-key="url" data-monospace value="#"></div></div></div>
+  </template>
+  <template id="tpl-qa-archive">
+    <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="field"><label>תאריך</label><input type="text" data-key="date"></div>
+    <div class="field"><label>השאלה</label><textarea data-key="question" rows="3"></textarea></div>
+    <div class="field"><label>התשובה</label><textarea data-key="answer" rows="4"></textarea></div>
+    <div class="field"><label>מקור</label><input type="text" data-key="source"></div></div>
+  </template>
+  <template id="tpl-class">
+    <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="field"><label>שם השיעור</label><input type="text" data-key="title"></div>
+    <div class="fields-row"><div class="field"><label>מגיד</label><input type="text" data-key="teacher"></div><div class="field"><label>איפה</label><input type="text" data-key="where"></div></div>
+    <div class="field"><label>מתי</label><input type="text" data-key="when"></div></div>
+  </template>
+  <template id="tpl-pillar">
+    <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="fields-row"><div class="field"><label>אות</label><input type="text" data-key="marker" maxlength="2"></div><div class="field"><label>שם</label><input type="text" data-key="name"></div></div>
+    <div class="field"><label>תיאור</label><textarea data-key="desc" rows="3"></textarea></div></div>
+  </template>
+  <template id="tpl-gabbai">
+    <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="fields-row"><div class="field"><label>שם</label><input type="text" data-key="name"></div><div class="field"><label>טלפון</label><input type="tel" data-key="phone" data-monospace></div></div>
+    <div class="field"><label>טלפון להצגה</label><input type="text" data-key="phone_display" data-monospace></div></div>
+  </template>
+
+  <script src="admin-app.js"></script>
+</body>
+</html>
