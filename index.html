@@ -1,1 +1,254 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#021D6B">
+  <title>בית כנסת בית ישראל — זמני תפילות בשבת</title>
+  <meta name="description" content="בית תפילה קהילתי — תפילות שחרית, מנחה ומעריב בכל יום, שיעורי תורה, ובית פתוח לכל יהודי.">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Assistant:wght@300;400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="notice" data-bind="notice"></div>
+  <div class="topbar">
+    <div class="wrap-wide topbar__row">
+      <a href="#top" class="topbar__brand">
+        <img src="logo.png" alt="" width="42" height="42" data-i18n-alt="logo_alt">
+        <span data-bind="site.short_name">בית ישראל</span>
+      </a>
+      <div class="topbar__actions">
+        <nav class="topbar__nav" aria-label="Main">
+          <a href="#shabbat" data-i18n="nav_shabbat">שבת</a>
+          <a href="#times" data-i18n="nav_times">זמני תפילה</a>
+          <a href="#torah" data-i18n="nav_torah">תורה</a>
+          <a href="#qa" data-i18n="nav_qa">שאלות</a>
+          <a href="#classes" data-i18n="nav_classes">שיעורים</a>
+          <a href="#visit" data-i18n="nav_visit">בואו אלינו</a>
+          <a href="#donate" data-i18n="nav_donate">תרומות</a>
+        </nav>
+        <select id="lang-select-top" class="lang-select" aria-label="Language">
+          <option value="he">עברית</option>
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
+          <option value="am">አማርኛ</option>
+          <option value="fr">Français</option>
+        </select>
+        <button type="button" class="menu-btn" id="menu-open" aria-label="Open menu" aria-expanded="false" aria-controls="side-drawer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawer-overlay" hidden></div>
+  <aside class="drawer" id="side-drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <div class="drawer__head">
+      <a href="#top" class="drawer__brand" id="drawer-brand">
+        <img src="logo.png" alt="" width="40" height="40">
+        <span data-bind="site.short_name">בית ישראל</span>
+      </a>
+      <button type="button" class="drawer__close" id="menu-close" aria-label="Close menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <nav class="drawer__nav" aria-label="Mobile">
+      <a href="#shabbat" data-i18n="nav_shabbat">שבת</a>
+      <a href="#times" data-i18n="nav_times">זמני תפילה</a>
+      <a href="#torah" data-i18n="nav_torah">תורה</a>
+      <a href="#qa" data-i18n="nav_qa">שאלות</a>
+      <a href="#classes" data-i18n="nav_classes">שיעורים</a>
+      <a href="#community" data-i18n="nav_community">קהילה</a>
+      <a href="#visit" data-i18n="nav_visit">בואו אלינו</a>
+      <a href="#donate" data-i18n="nav_donate">תרומות</a>
+    </nav>
+    <div class="drawer__lang">
+      <label for="lang-select-drawer" data-i18n="lang_label">שפה</label>
+      <select id="lang-select-drawer">
+        <option value="he">עברית</option>
+        <option value="en">English</option>
+        <option value="ru">Русский</option>
+        <option value="am">አማርኛ</option>
+        <option value="fr">Français</option>
+      </select>
+    </div>
+  </aside>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <img class="hero__logo" src="logo.png" alt="" width="220" height="220" data-i18n-alt="logo_alt">
+        <div class="hero__date">
+          <span data-bind="date.hebrew"></span>
+          <span class="sep">·</span>
+          <span data-bind="date.gregorian"></span>
+        </div>
+        <h1 class="hero__title">
+          <span class="light" data-i18n="hero_prefix">בית כנסת</span>
+          <span class="display" data-bind="site.name"></span>
+        </h1>
+        <p class="hero__tagline" data-bind="site.tagline"></p>
+        <a href="#shabbat" class="hero__cta">
+          <span data-i18n="hero_cta">זמני שבת הקרובה</span>
+          <span class="arrow">←</span>
+        </a>
+        <p class="content-lang-note" data-i18n="content_note"></p>
+      </div>
+    </section>
+    <section class="shabbat" id="shabbat">
+      <div class="wrap">
+        <div class="shabbat__parasha-block">
+          <div class="shabbat__eyebrow" data-i18n="parasha_label">שבת פרשת</div>
+          <h2 class="shabbat__parasha">
+            <span class="quote">״</span><span data-bind="shabbat.parasha"></span><span class="quote">״</span>
+          </h2>
+        </div>
+        <figure class="petiha">
+          <div class="petiha__inner">
+            <div class="petiha__initial" data-bind="shabbat.petiha.initial" aria-hidden="true"></div>
+            <blockquote class="petiha__text" data-bind="shabbat.petiha.text"></blockquote>
+          </div>
+          <figcaption class="petiha__attr" data-bind="shabbat.petiha.reference"></figcaption>
+        </figure>
+        <div class="shabbat__times-heading" data-i18n="shabbat_times_heading">זמני תפילות בשבת</div>
+        <div class="shabbat__times" data-list="shabbat.times" data-template="tpl-time-row"></div>
+      </div>
+    </section>
+    <section class="weekday" id="times">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="weekday_eyebrow">ימי חול</div>
+        <h2 class="section__title" data-bind="weekday.title">שחרית, מנחה ומעריב.</h2>
+        <p class="section__sub" data-bind="weekday.subtitle" data-if="weekday.subtitle"></p>
+        <div class="weekday__grid" role="table">
+          <div class="weekday__head"></div>
+          <div class="weekday__head" data-i18n="col_mincha">מנחה</div>
+          <div class="weekday__head" data-i18n="col_maariv">מעריב</div>
+          <div data-list="weekday.table" data-template="tpl-weekday-row" style="display: contents;"></div>
+        </div>
+        <dl class="weekday__shacharit" data-list="weekday.shacharit" data-template="tpl-shacharit-row"></dl>
+        <p class="weekday__note" data-bind="weekday.note" data-if="weekday.note"></p>
+      </div>
+    </section>
+    <section id="torah">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="torah_eyebrow">תורת השבוע</div>
+        <h2 class="section__title" data-bind="torah.title">דבר תורה לפרשת השבוע.</h2>
+        <p class="section__sub" data-bind="torah.subtitle"></p>
+        <article class="torah__featured">
+          <div class="torah__featured-date" data-bind="torah.featured.date"></div>
+          <h3 class="torah__featured-title" data-bind="torah.featured.title"></h3>
+          <p class="torah__featured-excerpt" data-bind="torah.featured.excerpt"></p>
+          <div class="torah__author">
+            <span class="torah__author-avatar" data-bind="torah.featured.author_initial"></span>
+            <span><strong data-bind="torah.featured.author"></strong><span> · </span><span data-bind="torah.featured.author_role"></span></span>
+          </div>
+        </article>
+        <div class="torah__archive" id="torah-archive">
+          <h3 data-i18n="torah_archive">ארכיון דברי תורה</h3>
+          <ul class="torah__list" data-list="torah.archive" data-template="tpl-torah-item"></ul>
+        </div>
+      </div>
+    </section>
+    <section class="qa" id="qa">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="qa_eyebrow">הלכה ופסיקה</div>
+        <h2 class="section__title" data-bind="qa.title">שאלות ותשובות בהלכה.</h2>
+        <p class="section__sub" data-bind="qa.subtitle"></p>
+        <article class="qa__featured">
+          <div class="qa__featured-date" data-bind="qa.featured.date"></div>
+          <h3 class="qa__featured-question" data-bind="qa.featured.question"></h3>
+          <div class="qa__featured-answer" data-bind="qa.featured.answer"></div>
+          <div class="qa__source" data-bind="qa.featured.source"></div>
+        </article>
+        <div class="qa__archive" id="qa-archive">
+          <h3 data-i18n="qa_archive">שאלות קודמות</h3>
+          <ul class="qa__list" data-list="qa.archive" data-template="tpl-qa-item"></ul>
+        </div>
+      </div>
+    </section>
+    <section class="classes" id="classes">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="classes_eyebrow">לוח שיעורים</div>
+        <h2 class="section__title" data-bind="classes_section.title">שיעורים קבועים.</h2>
+        <p class="section__sub" data-bind="classes_section.subtitle"></p>
+        <div class="classes__grid" data-list="classes" data-template="tpl-class-item"></div>
+      </div>
+    </section>
+    <section id="community">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="community_eyebrow">קהילה</div>
+        <h2 class="section__title" data-bind="community.title">מי אנחנו.</h2>
+        <p class="community__intro" data-bind="community.intro"></p>
+        <div class="pillars" data-list="community.pillars" data-template="tpl-pillar"></div>
+      </div>
+    </section>
+    <section class="visit" id="visit">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="visit_eyebrow">בואו אלינו</div>
+        <h2 class="section__title" data-bind="contact.address"></h2>
+        <p class="section__sub" data-bind="contact.welcome"></p>
+        <div class="visit__grid">
+          <div class="visit__block">
+            <h3 data-i18n="directions_label">איך מגיעים</h3>
+            <p data-bind="contact.directions"></p>
+            <p style="margin-top:16px"><a data-attr-href="contact.map_url" data-attr-target="_blank" href="#" data-i18n="map_link">מפה בגוגל ←</a></p>
+          </div>
+          <div class="visit__contact">
+            <div class="visit__block">
+              <h3 data-i18n="gabbaim_label">גבאים</h3>
+              <div data-list="contact.gabbaim" data-template="tpl-gabbai"></div>
+            </div>
+            <div class="visit__block" data-if="contact.email">
+              <h3 data-i18n="email_label">דוא״ל</h3>
+              <p><a data-attr-href-mailto="contact.email" data-bind="contact.email" href="#"></a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="donate" id="donate" data-if="donations.enabled">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="donate_eyebrow">תרומות</div>
+        <h2 class="section__title" data-bind="donations.title">תרומות לבית הכנסת.</h2>
+        <p class="section__sub" data-bind="donations.subtitle" data-if="donations.subtitle"></p>
+        <div class="donate__grid">
+          <div class="donate__card" data-if="donations.bank_name">
+            <h3 data-i18n="bank_transfer">העברה בנקאית</h3>
+            <div class="donate__row" data-if="donations.bank_name"><span class="donate__label" data-i18n="bank">בנק</span><span class="donate__value" data-bind="donations.bank_name"></span></div>
+            <div class="donate__row" data-if="donations.branch"><span class="donate__label" data-i18n="branch">סניף</span><span class="donate__value" data-bind="donations.branch"></span></div>
+            <div class="donate__row" data-if="donations.account"><span class="donate__label" data-i18n="account">מספר חשבון</span><span class="donate__value" data-bind="donations.account"></span></div>
+            <div class="donate__row" data-if="donations.account_name"><span class="donate__label" data-i18n="account_name">שם החשבון</span><span class="donate__value" data-bind="donations.account_name"></span></div>
+            <div class="donate__row" data-if="donations.iban"><span class="donate__label">IBAN</span><span class="donate__value" data-bind="donations.iban"></span></div>
+          </div>
+          <div class="donate__card" data-if="donations.bit_phone">
+            <h3 data-i18n="bit_paybox">ביט / פייבוקס</h3>
+            <div class="donate__row" data-if="donations.bit_phone"><span class="donate__label" data-i18n="bit_phone">טלפון לביט</span><span class="donate__value" data-bind="donations.bit_phone" dir="ltr"></span></div>
+            <div class="donate__row" data-if="donations.paybox"><span class="donate__label" data-i18n="paybox">פייבוקס</span><span class="donate__value" data-bind="donations.paybox" dir="ltr"></span></div>
+          </div>
+        </div>
+        <p class="donate__note" data-bind="donations.note" data-if="donations.note"></p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__blessing" data-bind="footer.blessing"></p>
+      <p><span data-bind="footer.copyright"></span></p>
+      <p class="footer__updated"><span data-i18n="last_updated">עדכון אחרון</span>: <span data-bind="_updated_display"></span></p>
+      <p style="margin-top:12px"><a href="admin.html" style="color:rgba(255,255,255,0.35);border:none;font-size:0.75rem" data-i18n="admin_link">ניהול</a></p>
+    </div>
+  </footer>
+  <template id="tpl-time-row"><div class="time-row" data-class="is_haftara:time-row--haftara"><div class="time-row__label"><span data-bind="label"></span><span class="note" data-bind="note"></span></div><div class="time-row__value" data-bind="value"></div></div></template>
+  <template id="tpl-weekday-row"><div class="weekday__day" data-bind="day"></div><div class="weekday__time" data-bind="mincha"></div><div class="weekday__time" data-bind="maariv"></div></template>
+  <template id="tpl-shacharit-row"><dt class="label" data-bind="label"></dt><dd class="val" data-bind="value"></dd></template>
+  <template id="tpl-torah-item"><li><a data-attr-href="url" href="#"><span data-bind="title"></span><span class="parasha" data-bind="parasha"></span></a></li></template>
+  <template id="tpl-class-item"><div class="class-item"><div><div class="class-item__title" data-bind="title"></div><div class="class-item__meta"><span data-bind="teacher"></span><span class="dot">·</span><span data-bind="where"></span></div></div><div class="class-item__when" data-bind="when"></div></div></template>
+  <template id="tpl-pillar"><div class="pillar"><span class="pillar__marker" data-bind="marker"></span><h3 class="pillar__name" data-bind="name"></h3><p class="pillar__desc" data-bind="desc"></p></div></template>
+  <template id="tpl-gabbai"><p class="gabbai"><span data-bind="name"></span><br><a data-attr-href-tel="phone" data-bind="phone_display" href="#" dir="ltr" style="unicode-bidi: embed;"></a></p></template>
+  <template id="tpl-qa-item"><li><strong data-bind="question"></strong><div style="font-size:0.85rem;color:var(--ink-3);margin-top:4px" data-bind="date"></div></li></template>
+  <script id="fallback-data" type="application/json">{"_updated_display":"01.09.2026","notice":"","site":{"name":"בית ישראל","short_name":"בית ישראל","tagline":"בית תפילה קהילתי נוסח ספרד — פתוח בכל יום, לכל יהודי."},"date":{"hebrew":"י״ט באלול תשפ״ו","gregorian":"1 בספטמבר 2026"},"shabbat":{"parasha":"נצבים־וילך","petiha":{"initial":"ב","text":"בָּרוּךְ אַתָּה בְּבֹאֶךָ\nוּבָרוּךְ אַתָּה בְּצֵאתֶךָ׃","reference":"דברים כ״ח, ו"},"times":[{"label":"הדלקת נרות","value":"18:31","note":"מ־Hebcal"},{"label":"מנחה, קבלת שבת וערבית","value":"18:55"},{"label":"שחרית","value":"08:15"},{"label":"ערבית והבדלה","value":"19:37"}]},"weekday":{"title":"שחרית, מנחה ומעריב.","subtitle":"","table":[{"day":"ראשון","mincha":"18:55","maariv":"19:25"},{"day":"שני","mincha":"18:50","maariv":"19:25"},{"day":"שלישי","mincha":"18:50","maariv":"19:25"},{"day":"רביעי","mincha":"18:50","maariv":"19:20"},{"day":"חמישי","mincha":"18:50","maariv":"19:20"}],"shacharit":[{"label":"שחרית · שני, חמישי","value":"06:15"},{"label":"שחרית · שאר ימי החול","value":"06:30"}],"note":""},"torah":{"title":"דבר תורה לפרשת השבוע.","subtitle":"","featured":{"date":"","title":"","excerpt":"","author":"","author_role":"","author_initial":""},"archive":[]},"qa":{"title":"שאלות ותשובות בהלכה.","subtitle":"","featured":{"date":"","question":"","answer":"","source":""},"archive":[]},"classes_section":{"title":"שיעורים קבועים.","subtitle":""},"classes":[],"community":{"title":"מי אנחנו.","intro":"","pillars":[]},"contact":{"address":"קרן היסוד 26, פתח תקווה.","welcome":"אורחים מתקבלים בברכה תמיד.","directions":"קרן היסוד 26, פתח תקווה.","map_url":"https://www.google.com/maps/search/?api=1&query=קרן+היסוד+26+פתח+תקווה","gabbaim":[{"name":"אריה זכסנהויז","phone":"0523680024","phone_display":"052-368-0024"}],"email":"kehila@beit-yisrael.org.il"},"footer":{"blessing":"״וְשָׁב וְקִבֶּצְךָ מִכָּל־הָעַמִּים״","copyright":"© 2026 · בית כנסת בית ישראל"},"donations":{"enabled":true,"title":"תרומות לבית הכנסת.","subtitle":"","bank_name":"","branch":"","account":"","account_name":"","iban":"","bit_phone":"","paybox":"","note":""}}</script>
+  <script src="app.js"></script>
+</body>
+</html>
