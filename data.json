@@ -98,7 +98,7 @@
     "copyright": "© 2026 · בית כנסת בית ישראל"
   },
   "_admin": {
-    "_comment": "סיסמה מוצפנת - שנה דרך לוח הניהול בלבד",
-    "password_hash": ""
+    "_comment": "סיסמה מוצפנת (SHA-256) — ברירת מחדל: beitisrael — שנה דרך לוח הניהול",
+    "password_hash": "7dd1df78e3a748c6f5f1c38e5b5b33785b0668e75eff595bb4e1f46a4339aebf"
   }
 }
