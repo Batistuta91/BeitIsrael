@@ -31,6 +31,7 @@
           <a href="#visit" data-i18n="nav_visit">בואו אלינו</a>
           <a href="#donate" data-i18n="nav_donate">תרומות</a>
         </nav>
+        <a href="admin.html" class="admin-btn" data-i18n="admin_link">ניהול</a>
         <select id="lang-select-top" class="lang-select" aria-label="Language">
           <option value="he">עברית</option>
           <option value="en">English</option>
@@ -64,6 +65,7 @@
       <a href="#community" data-i18n="nav_community">קהילה</a>
       <a href="#visit" data-i18n="nav_visit">בואו אלינו</a>
       <a href="#donate" data-i18n="nav_donate">תרומות</a>
+      <a href="admin.html" class="drawer__admin" data-i18n="admin_link">ניהול</a>
     </nav>
     <div class="drawer__lang">
       <label for="lang-select-drawer" data-i18n="lang_label">שפה</label>
@@ -237,7 +239,9 @@
       <p class="footer__blessing" data-bind="footer.blessing"></p>
       <p><span data-bind="footer.copyright"></span></p>
       <p class="footer__updated"><span data-i18n="last_updated">עדכון אחרון</span>: <span data-bind="_updated_display"></span></p>
-      <p style="margin-top:12px"><a href="admin.html" style="color:rgba(255,255,255,0.35);border:none;font-size:0.75rem" data-i18n="admin_link">ניהול</a></p>
+      <p class="footer__admin-wrap">
+        <a href="admin.html" class="admin-btn admin-btn--footer" data-i18n="admin_link">ניהול</a>
+      </p>
     </div>
   </footer>
   <template id="tpl-time-row"><div class="time-row" data-class="is_haftara:time-row--haftara"><div class="time-row__label"><span data-bind="label"></span><span class="note" data-bind="note"></span></div><div class="time-row__value" data-bind="value"></div></div></template>
