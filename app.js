@@ -19,7 +19,10 @@ const I18N = {
     account: 'מספר חשבון', account_name: 'שם החשבון', bit_paybox: 'ביט / פייבוקס',
     bit_phone: 'טלפון לביט', paybox: 'פייבוקס',
     last_updated: 'עדכון אחרון', admin_link: 'ניהול',
-    open_menu: 'פתח תפריט', close_menu: 'סגור תפריט', menu: 'תפריט'
+    open_menu: 'פתח תפריט', close_menu: 'סגור תפריט', menu: 'תפריט',
+    page_title: 'בית כנסת בית ישראל — זמני תפילות בשבת',
+    page_description: 'בית תפילה קהילתי — תפילות שחרית, מנחה ומעריב בכל יום, שיעורי תורה, ובית פתוח לכל יהודי.',
+    aria_main: 'ראשי', aria_mobile: 'תפריט נייד', aria_language: 'שפה', aria_menu_dialog: 'תפריט'
   },
   en: {
     dir: 'ltr', lang: 'en',
@@ -39,7 +42,10 @@ const I18N = {
     account: 'Account', account_name: 'Account name', bit_paybox: 'Bit / PayBox',
     bit_phone: 'Bit phone', paybox: 'PayBox',
     last_updated: 'Last updated', admin_link: 'Admin',
-    open_menu: 'Open menu', close_menu: 'Close menu', menu: 'Menu'
+    open_menu: 'Open menu', close_menu: 'Close menu', menu: 'Menu',
+    page_title: 'Beit Israel Synagogue — Shabbat Prayer Times',
+    page_description: "A community house of prayer — Shacharit, Mincha and Maariv every day, Torah classes, and a house open to every Jew.",
+    aria_main: 'Main', aria_mobile: 'Mobile', aria_language: 'Language', aria_menu_dialog: 'Menu'
   },
   ru: {
     dir: 'ltr', lang: 'ru',
@@ -59,7 +65,10 @@ const I18N = {
     account: 'Счёт', account_name: 'Имя счёта', bit_paybox: 'Bit / PayBox',
     bit_phone: 'Телефон Bit', paybox: 'PayBox',
     last_updated: 'Обновлено', admin_link: 'Админ',
-    open_menu: 'Открыть меню', close_menu: 'Закрыть меню', menu: 'Меню'
+    open_menu: 'Открыть меню', close_menu: 'Закрыть меню', menu: 'Меню',
+    page_title: 'Синагога Бейт Исраэль — время молитв в Шаббат',
+    page_description: 'Общинный дом молитвы — Шахарит, Минха и Маарив каждый день, уроки Торы, дом открыт для каждого еврея.',
+    aria_main: 'Основное', aria_mobile: 'Мобильное меню', aria_language: 'Язык', aria_menu_dialog: 'Меню'
   },
   am: {
     dir: 'ltr', lang: 'am',
@@ -79,7 +88,10 @@ const I18N = {
     account: 'መለያ', account_name: 'የመለያ ስም', bit_paybox: 'Bit / PayBox',
     bit_phone: 'Bit ስልክ', paybox: 'PayBox',
     last_updated: 'መጨረሻ የተዘመነ', admin_link: 'አስተዳደር',
-    open_menu: 'ምናሌ ክፈት', close_menu: 'ምናሌ ዝጋ', menu: 'ምናሌ'
+    open_menu: 'ምናሌ ክፈት', close_menu: 'ምናሌ ዝጋ', menu: 'ምናሌ',
+    page_title: 'የቤተ እስራኤል ምኩራብ — የሳባት የጸሎት ሰዓቶች',
+    page_description: 'የማህበረሰብ የጸሎት ቤት — በየቀኑ ሻካሪት፣ ሚንቻ እና ማዓሪቭ፣ የቶራ ትምህርቶች፣ ለማንኛውም አይሁዳዊ ክፍት ቤት።',
+    aria_main: 'ዋና', aria_mobile: 'የሞባይል ምናሌ', aria_language: 'ቋንቋ', aria_menu_dialog: 'ምናሌ'
   },
   fr: {
     dir: 'ltr', lang: 'fr',
@@ -99,7 +111,10 @@ const I18N = {
     account: 'Compte', account_name: 'Nom du compte', bit_paybox: 'Bit / PayBox',
     bit_phone: 'Téléphone Bit', paybox: 'PayBox',
     last_updated: 'Dernière mise à jour', admin_link: 'Admin',
-    open_menu: 'Ouvrir le menu', close_menu: 'Fermer le menu', menu: 'Menu'
+    open_menu: 'Ouvrir le menu', close_menu: 'Fermer le menu', menu: 'Menu',
+    page_title: 'Synagogue Beit Israël — Horaires de Chabbat',
+    page_description: "Une maison de prière communautaire — Chaharit, Minha et Arvit chaque jour, cours de Torah, une maison ouverte à tout Juif.",
+    aria_main: 'Principal', aria_mobile: 'Menu mobile', aria_language: 'Langue', aria_menu_dialog: 'Menu'
   }
 };
 
@@ -131,6 +146,19 @@ function applyI18n() {
   const closeBtn = document.getElementById('menu-close');
   if (openBtn) openBtn.setAttribute('aria-label', t('open_menu'));
   if (closeBtn) closeBtn.setAttribute('aria-label', t('close_menu'));
+
+  document.title = t('page_title');
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', t('page_description'));
+  const topNav = document.querySelector('.topbar__nav');
+  if (topNav) topNav.setAttribute('aria-label', t('aria_main'));
+  const drawerNav = document.querySelector('.drawer__nav');
+  if (drawerNav) drawerNav.setAttribute('aria-label', t('aria_mobile'));
+  const sideDrawer = document.getElementById('side-drawer');
+  if (sideDrawer) sideDrawer.setAttribute('aria-label', t('aria_menu_dialog'));
+  document.querySelectorAll('.lang-select, #lang-select-top, #lang-select-drawer').forEach(el => {
+    el.setAttribute('aria-label', t('aria_language'));
+  });
 
   const top = document.getElementById('lang-select-top');
   const drawerSel = document.getElementById('lang-select-drawer');
