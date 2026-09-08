@@ -283,6 +283,7 @@ function renderList(containerEl, templateId, items) {
 }
 
 function render(data) {
+  document.body.dataset.skin = (data.site && data.site.skin) || 'navy-gold';
   document.querySelectorAll('[data-bind], [data-if]').forEach(el => {
     if (el.closest('template')) return;
     bindElement(el, data);
@@ -339,11 +340,52 @@ async function enrichWithHebcal(data) {
       const heb = await res.json();
       const items = heb.items || [];
       const parashaItem = items.find(i => i.category === 'parashat');
+      const holidayOnShabbat = items.find(i => i.category === 'holiday' && new Date(i.date + 'T12:00:00').getDay() === 6);
       if (parashaItem) {
         let name = parashaItem.hebrew || parashaItem.title || '';
         name = name.replace(/^פרשת\s+/, '').replace(/^פָּרָשַׁת\s+/, '');
         data.shabbat = data.shabbat || {};
         data.shabbat.parasha = name;
+      } else if (holidayOnShabbat) {
+        // No weekly parasha this Shabbat (it's a Yom Tov) - show the holiday name instead of stale data
+        data.shabbat = data.shabbat || {};
+        const holidayName = (holidayOnShabbat.hebrew || holidayOnShabbat.title || '').replace(/\s*\d{4}\s*$/, '').trim();
+        data.shabbat.parasha = holidayName || data.shabbat.parasha;
+        try {
+          const [hgy, hgm, hgd] = holidayOnShabbat.date.split('-').map(Number);
+          const hConvRes = await fetch(`https://www.hebcal.com/converter?cfg=json&g2h=1&gy=${hgy}&gm=${hgm}&gd=${hgd}`, { cache: 'no-store' });
+          if (hConvRes.ok) {
+            const hConv = await hConvRes.json();
+            const heYear = hConv.heDateParts && hConv.heDateParts.y;
+            if (heYear && holidayName) data.shabbat.parasha = `${holidayName} ${heYear}`;
+          }
+        } catch (yearErr) {
+          console.warn('Hebrew year fetch failed', yearErr);
+        }
+      }
+      const readingItem = parashaItem || holidayOnShabbat;
+      if (readingItem && readingItem.leyning && readingItem.leyning.torah && data.shabbat) {
+        try {
+          const firstVerseRef = readingItem.leyning.torah.split('-')[0].trim();
+          const sefariaId = firstVerseRef.replace(/\s+/g, '.').replace(':', '.');
+          const vRes = await fetch(`https://www.sefaria.org/api/texts/${sefariaId}`, { cache: 'no-store' });
+          if (vRes.ok) {
+            const vData = await vRes.json();
+            let heText = Array.isArray(vData.he) ? vData.he[0] : vData.he;
+            if (heText) {
+              heText = heText.replace(/&nbsp;/g, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+              const prevRef = (data.shabbat.petiha && data.shabbat.petiha.reference) || '';
+              const heRef = (vData.heRef || '').replace(/:/g, ', ').replace(/׳/g, '');
+              data.shabbat.petiha = {
+                initial: heText.charAt(0),
+                text: heText,
+                reference: heRef || prevRef
+              };
+            }
+          }
+        } catch (verseErr) {
+          console.warn('Verse fetch failed', verseErr);
+        }
       }
       const candles = items.find(i => i.category === 'candles');
       if (candles && candles.date && data.shabbat && Array.isArray(data.shabbat.times)) {
