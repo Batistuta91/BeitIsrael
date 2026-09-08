@@ -264,6 +264,7 @@
               <option value="stone">אבן ירושלים</option>
               <option value="olive">זית</option>
             </select>
+            <div class="hint" style="display:block;margin-top:6px;">לאחר שמירה, ייתכן שיעברו כ־5 דקות עד שהעיצוב החדש יופיע באתר הציבורי.</div>
           </div>
         </div>
       </details>
@@ -341,8 +342,9 @@
           <div class="field"><label>אות ראשונה</label><input type="text" data-path="torah.featured.author_initial" maxlength="1"></div>
           <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
           <div class="field"><strong style="font-family:var(--font-serif);font-size:1.05rem;">ארכיון</strong></div>
+          <div class="hint" style="display:block;margin-bottom:8px;">הכפתור למטה מעביר את דבר התורה שמופיע למעלה לארכיון, ומרוקן את השדות כדי לכתוב דבר תורה חדש.</div>
           <div class="list-items" id="torah-archive-list"></div>
-          <button class="add-btn" data-add="torah.archive" data-template="torah-archive">+ הוסף לארכיון</button>
+          <button class="add-btn" data-add="torah.archive" data-template="torah-archive">→ העבר לארכיון והתחל דבר תורה חדש</button>
         </div>
       </details>
 
@@ -357,8 +359,9 @@
           <div class="field"><label>התשובה</label><textarea data-path="qa.featured.answer" rows="6"></textarea></div>
           <div class="field"><label>מקור</label><input type="text" data-path="qa.featured.source"></div>
           <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+          <div class="hint" style="display:block;margin-bottom:8px;">הכפתור למטה מעביר את השאלה והתשובה שמופיעות למעלה לארכיון, ומרוקן את השדות כדי לכתוב שאלה חדשה.</div>
           <div class="list-items" id="qa-archive-list"></div>
-          <button class="add-btn" data-add="qa.archive" data-template="qa-archive">+ הוסף לארכיון</button>
+          <button class="add-btn" data-add="qa.archive" data-template="qa-archive">→ העבר לארכיון והתחל שאלה חדשה</button>
         </div>
       </details>
 
@@ -455,8 +458,11 @@
   </template>
   <template id="tpl-torah-archive">
     <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>
+    <div class="field"><label>תאריך ופרשה</label><input type="text" data-key="parasha"></div>
     <div class="field"><label>כותרת</label><input type="text" data-key="title"></div>
-    <div class="fields-row"><div class="field"><label>פרשה</label><input type="text" data-key="parasha"></div><div class="field"><label>קישור</label><input type="text" data-key="url" data-monospace value="#"></div></div></div>
+    <div class="field"><label>גוף</label><textarea data-key="excerpt" rows="4"></textarea></div>
+    <div class="fields-row"><div class="field"><label>שם המחבר</label><input type="text" data-key="author"></div><div class="field"><label>תפקיד</label><input type="text" data-key="author_role"></div></div>
+    <div class="field"><label>קישור</label><input type="text" data-key="url" data-monospace value="#"></div></div>
   </template>
   <template id="tpl-qa-archive">
     <div class="list-item"><div class="list-item__header"><span class="list-item__num"></span><div class="list-item__controls"><button class="icon-btn" data-move="up">↑</button><button class="icon-btn" data-move="down">↓</button><button class="icon-btn icon-btn--danger" data-remove>מחק</button></div></div>

@@ -151,7 +151,7 @@ function renderWeekdayTable() {
 const LIST_CONFIG = [
   { container: 'shabbat-times-list', path: 'shabbat.times', template: 'shabbat-time', empty: { label: '', value: '', note: '' } },
   { container: 'shacharit-list', path: 'weekday.shacharit', template: 'shacharit', empty: { label: '', value: '' } },
-  { container: 'torah-archive-list', path: 'torah.archive', template: 'torah-archive', empty: { title: '', parasha: '', url: '#' } },
+  { container: 'torah-archive-list', path: 'torah.archive', template: 'torah-archive', empty: { title: '', parasha: '', excerpt: '', author: '', author_role: '', author_initial: '', url: '#' } },
   { container: 'qa-archive-list', path: 'qa.archive', template: 'qa-archive', empty: { date: '', question: '', answer: '', source: '' } },
   { container: 'classes-list', path: 'classes', template: 'class', empty: { title: '', teacher: '', where: '', when: '' } },
   { container: 'pillars-list', path: 'community.pillars', template: 'pillar', empty: { marker: '', name: '', desc: '' } },
@@ -169,6 +169,55 @@ function renderAll() {
   setupDonationsEnabled();
 }
 
+function syncFieldsForPrefix(prefix) {
+  document.querySelectorAll('[data-path]').forEach(el => {
+    if (el.dataset.path.startsWith(prefix)) {
+      const val = getPath(state.data, el.dataset.path);
+      el.value = val == null ? '' : val;
+    }
+  });
+}
+
+function archiveFeaturedAndClear(listPath, cfg) {
+  const items = getPath(state.data, listPath) || [];
+  if (listPath === 'torah.archive') {
+    const featured = state.data.torah && state.data.torah.featured;
+    if (!featured || (!featured.title && !featured.excerpt)) return false;
+    items.unshift({
+      title: featured.title || '',
+      parasha: featured.date || '',
+      excerpt: featured.excerpt || '',
+      author: featured.author || '',
+      author_role: featured.author_role || '',
+      author_initial: featured.author_initial || '',
+      url: '#'
+    });
+    setPath(state.data, listPath, items);
+    state.data.torah.featured = { date: '', title: '', excerpt: '', author: '', author_role: '', author_initial: '' };
+    syncFieldsForPrefix('torah.featured.');
+    renderList(cfg.container, cfg.path, cfg.template);
+    markDirty();
+    return true;
+  }
+  if (listPath === 'qa.archive') {
+    const featured = state.data.qa && state.data.qa.featured;
+    if (!featured || (!featured.question && !featured.answer)) return false;
+    items.unshift({
+      date: featured.date || '',
+      question: featured.question || '',
+      answer: featured.answer || '',
+      source: featured.source || ''
+    });
+    setPath(state.data, listPath, items);
+    state.data.qa.featured = { date: '', question: '', answer: '', source: '' };
+    syncFieldsForPrefix('qa.featured.');
+    renderList(cfg.container, cfg.path, cfg.template);
+    markDirty();
+    return true;
+  }
+  return false;
+}
+
 document.querySelectorAll('[data-add]').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -176,6 +225,9 @@ document.querySelectorAll('[data-add]').forEach(btn => {
     const templateName = btn.dataset.template;
     const cfg = LIST_CONFIG.find(c => c.path === listPath);
     if (!cfg) return;
+
+    if (archiveFeaturedAndClear(listPath, cfg)) return;
+
     const items = getPath(state.data, listPath) || [];
     items.push({ ...cfg.empty });
     setPath(state.data, listPath, items);
