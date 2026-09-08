@@ -22,7 +22,8 @@ const I18N = {
     open_menu: 'פתח תפריט', close_menu: 'סגור תפריט', menu: 'תפריט',
     page_title: 'בית כנסת בית ישראל — זמני תפילות בשבת',
     page_description: 'בית תפילה קהילתי — תפילות שחרית, מנחה ומעריב בכל יום, שיעורי תורה, ובית פתוח לכל יהודי.',
-    aria_main: 'ראשי', aria_mobile: 'תפריט נייד', aria_language: 'שפה', aria_menu_dialog: 'תפריט'
+    aria_main: 'ראשי', aria_mobile: 'תפריט נייד', aria_language: 'שפה', aria_menu_dialog: 'תפריט',
+    skip_link: 'דלגו לתוכן הראשי'
   },
   en: {
     dir: 'ltr', lang: 'en',
@@ -45,7 +46,8 @@ const I18N = {
     open_menu: 'Open menu', close_menu: 'Close menu', menu: 'Menu',
     page_title: 'Beit Israel Synagogue — Shabbat Prayer Times',
     page_description: "A community house of prayer — Shacharit, Mincha and Maariv every day, Torah classes, and a house open to every Jew.",
-    aria_main: 'Main', aria_mobile: 'Mobile', aria_language: 'Language', aria_menu_dialog: 'Menu'
+    aria_main: 'Main', aria_mobile: 'Mobile', aria_language: 'Language', aria_menu_dialog: 'Menu',
+    skip_link: 'Skip to main content'
   },
   ru: {
     dir: 'ltr', lang: 'ru',
@@ -68,7 +70,8 @@ const I18N = {
     open_menu: 'Открыть меню', close_menu: 'Закрыть меню', menu: 'Меню',
     page_title: 'Синагога Бейт Исраэль — время молитв в Шаббат',
     page_description: 'Общинный дом молитвы — Шахарит, Минха и Маарив каждый день, уроки Торы, дом открыт для каждого еврея.',
-    aria_main: 'Основное', aria_mobile: 'Мобильное меню', aria_language: 'Язык', aria_menu_dialog: 'Меню'
+    aria_main: 'Основное', aria_mobile: 'Мобильное меню', aria_language: 'Язык', aria_menu_dialog: 'Меню',
+    skip_link: 'Перейти к основному содержимому'
   },
   am: {
     dir: 'ltr', lang: 'am',
@@ -91,7 +94,8 @@ const I18N = {
     open_menu: 'ምናሌ ክፈት', close_menu: 'ምናሌ ዝጋ', menu: 'ምናሌ',
     page_title: 'የቤተ እስራኤል ምኩራብ — የሳባት የጸሎት ሰዓቶች',
     page_description: 'የማህበረሰብ የጸሎት ቤት — በየቀኑ ሻካሪት፣ ሚንቻ እና ማዓሪቭ፣ የቶራ ትምህርቶች፣ ለማንኛውም አይሁዳዊ ክፍት ቤት።',
-    aria_main: 'ዋና', aria_mobile: 'የሞባይል ምናሌ', aria_language: 'ቋንቋ', aria_menu_dialog: 'ምናሌ'
+    aria_main: 'ዋና', aria_mobile: 'የሞባይል ምናሌ', aria_language: 'ቋንቋ', aria_menu_dialog: 'ምናሌ',
+    skip_link: 'ወደ ዋናው ይዘት ዝለል'
   },
   fr: {
     dir: 'ltr', lang: 'fr',
@@ -114,7 +118,8 @@ const I18N = {
     open_menu: 'Ouvrir le menu', close_menu: 'Fermer le menu', menu: 'Menu',
     page_title: 'Synagogue Beit Israël — Horaires de Chabbat',
     page_description: "Une maison de prière communautaire — Chaharit, Minha et Arvit chaque jour, cours de Torah, une maison ouverte à tout Juif.",
-    aria_main: 'Principal', aria_mobile: 'Menu mobile', aria_language: 'Langue', aria_menu_dialog: 'Menu'
+    aria_main: 'Principal', aria_mobile: 'Menu mobile', aria_language: 'Langue', aria_menu_dialog: 'Menu',
+    skip_link: 'Aller au contenu principal'
   }
 };
 
