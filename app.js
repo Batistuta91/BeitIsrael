@@ -4,7 +4,7 @@ const HEBCAL_URL = 'https://www.hebcal.com/shabbat?cfg=json&geonameid=293918&b=3
 const I18N = {
   he: {
     dir: 'rtl', lang: 'he',
-    nav_shabbat: 'שבת', nav_times: 'זמני תפילה', nav_torah: 'תורה', nav_qa: 'שאלות',
+    nav_shabbat: 'שבת', nav_times: 'זמני תפילה', nav_zmanim: 'זמנים הלכתיים', nav_torah: 'תורה', nav_qa: 'שאלות',
     nav_classes: 'שיעורים', nav_community: 'קהילה', nav_visit: 'בואו אלינו', nav_donate: 'תרומות',
     lang_label: 'שפה', logo_alt: 'לוגו בית כנסת בית ישראל',
     hero_prefix: 'בית כנסת', hero_cta: 'זמני שבת הקרובה', content_note: '',
@@ -23,11 +23,17 @@ const I18N = {
     page_title: 'בית כנסת בית ישראל — זמני תפילות בשבת',
     page_description: 'בית תפילה קהילתי — תפילות שחרית, מנחה ומעריב בכל יום, שיעורי תורה, ובית פתוח לכל יהודי.',
     aria_main: 'ראשי', aria_mobile: 'תפריט נייד', aria_language: 'שפה', aria_menu_dialog: 'תפריט',
-    skip_link: 'דלגו לתוכן הראשי', accessibility_link: 'הצהרת נגישות'
+    skip_link: 'דלגו לתוכן הראשי', accessibility_link: 'הצהרת נגישות',
+    widget_upcoming_shabbat: 'השבת הקרובה', widget_candle_lighting: 'הדלקת נרות', widget_havdalah: 'מוצאי שבת',
+    zmanim_eyebrow: 'זמני היום', zmanim_title: 'זמנים הלכתיים',
+    zmanim_alot: 'עלות השחר', zmanim_misheyakir: 'משיכיר', zmanim_sunrise: 'הנץ החמה',
+    zmanim_shma_mga: 'סוף ק"ש (מג"א)', zmanim_shma_gra: 'סוף ק"ש (גר"א)', zmanim_tefilla: 'סוף תפילה',
+    zmanim_chatzot: 'חצות היום', zmanim_mincha_gedola: 'מנחה גדולה', zmanim_mincha_ketana: 'מנחה קטנה',
+    zmanim_plag: 'פלג המנחה', zmanim_shkia: 'שקיעה', zmanim_tzeit: 'צאת הכוכבים'
   },
   en: {
     dir: 'ltr', lang: 'en',
-    nav_shabbat: 'Shabbat', nav_times: 'Prayer times', nav_torah: 'Torah', nav_qa: 'Q&A',
+    nav_shabbat: 'Shabbat', nav_times: 'Prayer times', nav_zmanim: 'Halachic Times', nav_torah: 'Torah', nav_qa: 'Q&A',
     nav_classes: 'Classes', nav_community: 'Community', nav_visit: 'Visit us', nav_donate: 'Donate',
     lang_label: 'Language', logo_alt: 'Beit Israel Synagogue logo',
     hero_prefix: 'Synagogue', hero_cta: "This week's Shabbat times",
@@ -47,11 +53,17 @@ const I18N = {
     page_title: 'Beit Israel Synagogue — Shabbat Prayer Times',
     page_description: "A community house of prayer — Shacharit, Mincha and Maariv every day, Torah classes, and a house open to every Jew.",
     aria_main: 'Main', aria_mobile: 'Mobile', aria_language: 'Language', aria_menu_dialog: 'Menu',
-    skip_link: 'Skip to main content', accessibility_link: 'Accessibility Statement'
+    skip_link: 'Skip to main content', accessibility_link: 'Accessibility Statement',
+    widget_upcoming_shabbat: 'Upcoming Shabbat', widget_candle_lighting: 'Candle Lighting', widget_havdalah: 'Havdalah',
+    zmanim_eyebrow: "Today's Times", zmanim_title: 'Halachic Times',
+    zmanim_alot: 'Dawn (Alot HaShachar)', zmanim_misheyakir: 'Misheyakir', zmanim_sunrise: 'Sunrise',
+    zmanim_shma_mga: 'Latest Shema (Magen Avraham)', zmanim_shma_gra: 'Latest Shema (Gra)', zmanim_tefilla: 'Latest Shacharit',
+    zmanim_chatzot: 'Midday (Chatzot)', zmanim_mincha_gedola: 'Mincha Gedola', zmanim_mincha_ketana: 'Mincha Ketana',
+    zmanim_plag: 'Plag HaMincha', zmanim_shkia: 'Sunset', zmanim_tzeit: 'Nightfall (Tzeit HaKochavim)'
   },
   ru: {
     dir: 'ltr', lang: 'ru',
-    nav_shabbat: 'Шаббат', nav_times: 'Время молитв', nav_torah: 'Тора', nav_qa: 'Вопросы',
+    nav_shabbat: 'Шаббат', nav_times: 'Время молитв', nav_zmanim: 'Галахические времена', nav_torah: 'Тора', nav_qa: 'Вопросы',
     nav_classes: 'Уроки', nav_community: 'Община', nav_visit: 'Как добраться', nav_donate: 'Пожертвования',
     lang_label: 'Язык', logo_alt: 'Логотип синагоги Бейт Исраэль',
     hero_prefix: 'Синагога', hero_cta: 'Время Шаббата на этой неделе',
@@ -71,11 +83,17 @@ const I18N = {
     page_title: 'Синагога Бейт Исраэль — время молитв в Шаббат',
     page_description: 'Общинный дом молитвы — Шахарит, Минха и Маарив каждый день, уроки Торы, дом открыт для каждого еврея.',
     aria_main: 'Основное', aria_mobile: 'Мобильное меню', aria_language: 'Язык', aria_menu_dialog: 'Меню',
-    skip_link: 'Перейти к основному содержимому', accessibility_link: 'Заявление о доступности'
+    skip_link: 'Перейти к основному содержимому', accessibility_link: 'Заявление о доступности',
+    widget_upcoming_shabbat: 'Ближайший Шаббат', widget_candle_lighting: 'Зажигание свечей', widget_havdalah: 'Авдала',
+    zmanim_eyebrow: 'Время сегодня', zmanim_title: 'Галахические времена',
+    zmanim_alot: 'Рассвет (Алот а-Шахар)', zmanim_misheyakir: 'Мишеякир', zmanim_sunrise: 'Восход солнца',
+    zmanim_shma_mga: 'Конец Шма (Маген Авраам)', zmanim_shma_gra: 'Конец Шма (Гра)', zmanim_tefilla: 'Конец времени молитвы',
+    zmanim_chatzot: 'Полдень (Хацот)', zmanim_mincha_gedola: 'Минха Гдола', zmanim_mincha_ketana: 'Минха Ктана',
+    zmanim_plag: 'Плаг а-Минха', zmanim_shkia: 'Закат', zmanim_tzeit: 'Выход звёзд'
   },
   am: {
     dir: 'ltr', lang: 'am',
-    nav_shabbat: 'ሳባት', nav_times: 'የጸሎት ጊዜ', nav_torah: 'ቶራ', nav_qa: 'ጥያቄዎች',
+    nav_shabbat: 'ሳባት', nav_times: 'የጸሎት ጊዜ', nav_zmanim: 'የሃላካ ሰዓቶች', nav_torah: 'ቶራ', nav_qa: 'ጥያቄዎች',
     nav_classes: 'ትምህርቶች', nav_community: 'ማህበረሰብ', nav_visit: 'ይጎብኙን', nav_donate: 'ልገሳ',
     lang_label: 'ቋንቋ', logo_alt: 'የቤተ እስራኤል ምልክት',
     hero_prefix: 'ሲናጎግ', hero_cta: 'የዚህ ሳምንት የሳባት ጊዜ',
@@ -95,11 +113,17 @@ const I18N = {
     page_title: 'የቤተ እስራኤል ምኩራብ — የሳባት የጸሎት ሰዓቶች',
     page_description: 'የማህበረሰብ የጸሎት ቤት — በየቀኑ ሻካሪት፣ ሚንቻ እና ማዓሪቭ፣ የቶራ ትምህርቶች፣ ለማንኛውም አይሁዳዊ ክፍት ቤት።',
     aria_main: 'ዋና', aria_mobile: 'የሞባይል ምናሌ', aria_language: 'ቋንቋ', aria_menu_dialog: 'ምናሌ',
-    skip_link: 'ወደ ዋናው ይዘት ዝለል', accessibility_link: 'የተደራሽነት መግለጫ'
+    skip_link: 'ወደ ዋናው ይዘት ዝለል', accessibility_link: 'የተደራሽነት መግለጫ',
+    widget_upcoming_shabbat: 'መጪው ሳባት', widget_candle_lighting: 'ሻማ ማብራት', widget_havdalah: 'ሃቭዳላ',
+    zmanim_eyebrow: 'የዛሬ ሰዓቶች', zmanim_title: 'የሃላካ ሰዓቶች',
+    zmanim_alot: 'ንጋት (አሎት ሃሻቻር)', zmanim_misheyakir: 'ሚሼያኪር', zmanim_sunrise: 'ፀሐይ መውጫ',
+    zmanim_shma_mga: 'የሽማ መጨረሻ (መገን አብርሃም)', zmanim_shma_gra: 'የሽማ መጨረሻ (ግራ)', zmanim_tefilla: 'የጸሎት መጨረሻ',
+    zmanim_chatzot: 'እኩለ ቀን', zmanim_mincha_gedola: 'ሚንቻ ገዶላ', zmanim_mincha_ketana: 'ሚንቻ ቀጣና',
+    zmanim_plag: 'ፕላግ ሃሚንቻ', zmanim_shkia: 'ፀሐይ ስትጠልቅ', zmanim_tzeit: 'ከዋክብት መውጫ'
   },
   fr: {
     dir: 'ltr', lang: 'fr',
-    nav_shabbat: 'Chabbat', nav_times: 'Horaires', nav_torah: 'Torah', nav_qa: 'Questions',
+    nav_shabbat: 'Chabbat', nav_times: 'Horaires', nav_zmanim: 'Horaires Halakhiques', nav_torah: 'Torah', nav_qa: 'Questions',
     nav_classes: 'Cours', nav_community: 'Communauté', nav_visit: 'Nous rendre visite', nav_donate: 'Dons',
     lang_label: 'Langue', logo_alt: 'Logo de la synagogue Beit Israel',
     hero_prefix: 'Synagogue', hero_cta: 'Horaires du Chabbat',
@@ -119,7 +143,13 @@ const I18N = {
     page_title: 'Synagogue Beit Israël — Horaires de Chabbat',
     page_description: "Une maison de prière communautaire — Chaharit, Minha et Arvit chaque jour, cours de Torah, une maison ouverte à tout Juif.",
     aria_main: 'Principal', aria_mobile: 'Menu mobile', aria_language: 'Langue', aria_menu_dialog: 'Menu',
-    skip_link: 'Aller au contenu principal', accessibility_link: 'Déclaration d\'accessibilité'
+    skip_link: 'Aller au contenu principal', accessibility_link: 'Déclaration d\'accessibilité',
+    widget_upcoming_shabbat: 'Prochain Chabbat', widget_candle_lighting: 'Allumage des bougies', widget_havdalah: 'Havdala',
+    zmanim_eyebrow: 'Horaires du jour', zmanim_title: 'Horaires Halakhiques',
+    zmanim_alot: 'Aube (Alot HaChahar)', zmanim_misheyakir: 'Micheyakir', zmanim_sunrise: 'Lever du soleil',
+    zmanim_shma_mga: 'Fin du Chema (Maguen Avraham)', zmanim_shma_gra: 'Fin du Chema (Gra)', zmanim_tefilla: 'Fin de la Amida',
+    zmanim_chatzot: 'Midi (Hatsot)', zmanim_mincha_gedola: 'Mincha Guedola', zmanim_mincha_ketana: 'Mincha Ketana',
+    zmanim_plag: 'Plag HaMincha', zmanim_shkia: 'Coucher du soleil', zmanim_tzeit: 'Tombée de la nuit (Tset HaKokhavim)'
   }
 };
 
@@ -430,6 +460,7 @@ async function enrichWithHebcal(data) {
           entry.value = timeStr;
           entry.note = entry.note || 'מ־Hebcal · 30 דק׳ לפני שקיעה · פתח תקווה';
         }
+        data.shabbat.candle_time = timeStr;
       }
       const havdalah = items.find(i => i.category === 'havdalah');
       if (havdalah && havdalah.date && data.shabbat && Array.isArray(data.shabbat.times)) {
@@ -438,6 +469,7 @@ async function enrichWithHebcal(data) {
           t.label && (t.label.includes('הבדלה') || t.label.includes('ערבית והבדלה'))
         );
         if (entry) entry.value = timeStr;
+        data.shabbat.havdalah_time = timeStr;
       }
     }
     const now = new Date();
@@ -454,6 +486,36 @@ async function enrichWithHebcal(data) {
       }
       const monthsHe = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
       data.date.gregorian = `${gd} ב${monthsHe[gm - 1]} ${gy}`;
+    }
+    try {
+      const pad = n => String(n).padStart(2, '0');
+      const zUrl = `https://www.hebcal.com/zmanim?cfg=json&geonameid=293918&date=${gy}-${pad(gm)}-${pad(gd)}`;
+      const zRes = await fetch(zUrl, { cache: 'no-store' });
+      if (zRes.ok) {
+        const z = await zRes.json();
+        const t = z.times || {};
+        const hm = iso => (typeof iso === 'string' && iso.length >= 16) ? iso.slice(11, 16) : null;
+        const zmanim = {
+          alot: hm(t.alotHaShachar),
+          misheyakir: hm(t.misheyakir),
+          sunrise: hm(t.sunrise),
+          shma_mga: hm(t.sofZmanShmaMGA),
+          shma_gra: hm(t.sofZmanShma),
+          tefilla: hm(t.sofZmanTfilla),
+          chatzot: hm(t.chatzot),
+          mincha_gedola: hm(t.minchaGedola),
+          mincha_ketana: hm(t.minchaKetana),
+          plag: hm(t.plagHaMincha),
+          shkia: hm(t.sunset),
+          tzeit: hm(t.tzeit7083deg)
+        };
+        data.zmanim = data.zmanim || {};
+        for (const key in zmanim) {
+          if (zmanim[key]) data.zmanim[key] = zmanim[key];
+        }
+      }
+    } catch (zErr) {
+      console.warn('Zmanim fetch failed', zErr);
     }
     return data;
   } catch (e) {

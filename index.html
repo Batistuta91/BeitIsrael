@@ -26,6 +26,7 @@
         <nav class="topbar__nav" aria-label="Main">
           <a href="#shabbat" data-i18n="nav_shabbat">שבת</a>
           <a href="#times" data-i18n="nav_times">זמני תפילה</a>
+          <a href="#zmanim" data-i18n="nav_zmanim">זמנים הלכתיים</a>
           <a href="#torah" data-i18n="nav_torah">תורה</a>
           <a href="#qa" data-i18n="nav_qa">שאלות</a>
           <a href="#classes" data-i18n="nav_classes">שיעורים</a>
@@ -93,6 +94,54 @@
           <span class="display" data-bind="site.name"></span>
         </h1>
         <p class="hero__tagline" data-bind="site.tagline"></p>
+
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+          <defs>
+            <radialGradient id="flameGrad" cx="50%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#fff6d5"/>
+              <stop offset="45%" stop-color="#ffce5c"/>
+              <stop offset="100%" stop-color="#e8952c"/>
+            </radialGradient>
+            <linearGradient id="candleGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#e9e4d8"/>
+              <stop offset="45%" stop-color="#fbf8f0"/>
+              <stop offset="100%" stop-color="#d8d2c2"/>
+            </linearGradient>
+          </defs>
+        </svg>
+
+        <div class="candles-widget">
+          <div class="candles-widget__eyebrow">
+            <span class="diamond" aria-hidden="true">◇</span>
+            <span data-i18n="widget_upcoming_shabbat">השבת הקרובה</span>
+          </div>
+          <div class="candles-widget__graphic">
+            <svg class="candle" viewBox="0 0 44 100" aria-hidden="true">
+              <ellipse cx="22" cy="14" rx="7" ry="12" fill="url(#flameGrad)"/>
+              <rect x="20" y="6" width="2" height="10" fill="#5a4632"/>
+              <rect x="13" y="24" width="18" height="66" rx="3" fill="url(#candleGrad)"/>
+              <rect x="13" y="24" width="4" height="66" rx="2" fill="rgba(255,255,255,0.35)"/>
+            </svg>
+            <svg class="candle" viewBox="0 0 44 100" aria-hidden="true">
+              <ellipse cx="22" cy="14" rx="7" ry="12" fill="url(#flameGrad)"/>
+              <rect x="20" y="6" width="2" height="10" fill="#5a4632"/>
+              <rect x="13" y="24" width="18" height="66" rx="3" fill="url(#candleGrad)"/>
+              <rect x="13" y="24" width="4" height="66" rx="2" fill="rgba(255,255,255,0.35)"/>
+            </svg>
+          </div>
+          <div class="candles-widget__divider"></div>
+          <div class="candles-widget__stats">
+            <div class="candles-widget__stat">
+              <div class="candles-widget__label" data-i18n="widget_candle_lighting">הדלקת נרות</div>
+              <div class="candles-widget__value" data-bind="shabbat.candle_time"></div>
+            </div>
+            <div class="candles-widget__stat">
+              <div class="candles-widget__label" data-i18n="widget_havdalah">מוצאי שבת</div>
+              <div class="candles-widget__value" data-bind="shabbat.havdalah_time"></div>
+            </div>
+          </div>
+        </div>
+
         <a href="#shabbat" class="hero__cta">
           <span data-i18n="hero_cta">זמני שבת הקרובה</span>
           <span class="arrow">←</span>
@@ -132,6 +181,26 @@
           <div class="weekday__days" data-list="weekday.table" data-template="tpl-weekday-card"></div>
         </div>
         <p class="weekday__note" data-bind="weekday.note" data-if="weekday.note"></p>
+      </div>
+    </section>
+    <section class="zmanim" id="zmanim">
+      <div class="wrap">
+        <div class="eyebrow" data-i18n="zmanim_eyebrow">זמני היום</div>
+        <h2 class="section__title" data-i18n="zmanim_title">זמנים הלכתיים</h2>
+        <div class="zmanim__grid">
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_alot">עלות השחר</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.alot"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_misheyakir">משיכיר</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.misheyakir"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_sunrise">הנץ החמה</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.sunrise"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_shma_mga">סוף ק"ש (מג"א)</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.shma_mga"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_shma_gra">סוף ק"ש (גר"א)</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.shma_gra"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_tefilla">סוף תפילה</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.tefilla"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_chatzot">חצות היום</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.chatzot"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_mincha_gedola">מנחה גדולה</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.mincha_gedola"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_mincha_ketana">מנחה קטנה</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.mincha_ketana"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_plag">פלג המנחה</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.plag"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_shkia">שקיעה</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.shkia"></span></div>
+          <div class="zmanim-row"><span class="zmanim-label" data-i18n="zmanim_tzeit">צאת הכוכבים</span><span class="zmanim-dots"></span><span class="zmanim-value" data-bind="zmanim.tzeit"></span></div>
+        </div>
       </div>
     </section>
     <section id="torah">
@@ -253,7 +322,7 @@
   <template id="tpl-pillar"><div class="pillar"><span class="pillar__marker" data-bind="marker"></span><h3 class="pillar__name" data-bind="name"></h3><p class="pillar__desc" data-bind="desc"></p></div></template>
   <template id="tpl-gabbai"><p class="gabbai"><span data-bind="name"></span><br><a data-attr-href-tel="phone" data-bind="phone_display" href="#" dir="ltr" style="unicode-bidi: embed;"></a></p></template>
   <template id="tpl-qa-item"><li><strong data-bind="question"></strong><div style="font-size:0.85rem;color:var(--ink-3);margin-top:4px" data-bind="date"></div></li></template>
-  <script id="fallback-data" type="application/json">{"_updated_display":"01.09.2026","notice":"","site":{"name":"בית ישראל","short_name":"בית ישראל","tagline":"בית תפילה קהילתי נוסח ספרד — פתוח בכל יום, לכל יהודי.","skin":"navy-gold"},"date":{"hebrew":"י״ט באלול תשפ״ו","gregorian":"1 בספטמבר 2026"},"shabbat":{"parasha":"נצבים־וילך","times_heading":"זמני תפילות בשבת","petiha":{"initial":"ב","text":"בָּרוּךְ אַתָּה בְּבֹאֶךָ\nוּבָרוּךְ אַתָּה בְּצֵאתֶךָ׃","reference":"דברים כ״ח, ו"},"times":[{"label":"הדלקת נרות","value":"18:31","note":"מ־Hebcal"},{"label":"מנחה, קבלת שבת וערבית","value":"18:55"},{"label":"שחרית","value":"08:15"},{"label":"ערבית והבדלה","value":"19:37"}]},"weekday":{"title":"זמני תפילה ימי חול","subtitle":"","table":[{"day":"ראשון","mincha":"18:55","maariv":"19:25"},{"day":"שני","mincha":"18:50","maariv":"19:25"},{"day":"שלישי","mincha":"18:50","maariv":"19:25"},{"day":"רביעי","mincha":"18:50","maariv":"19:20"},{"day":"חמישי","mincha":"18:50","maariv":"19:20"}],"shacharit":[{"label":"שחרית · שני, חמישי","value":"06:15"},{"label":"שחרית · שאר ימי החול","value":"06:30"}],"note":""},"torah":{"title":"דבר תורה לפרשת השבוע.","subtitle":"","featured":{"date":"","title":"","excerpt":"","author":"","author_role":"","author_initial":""},"archive":[]},"qa":{"title":"שאלות ותשובות בהלכה.","subtitle":"","featured":{"date":"","question":"","answer":"","source":""},"archive":[]},"classes_section":{"title":"שיעורים קבועים.","subtitle":""},"classes":[],"community":{"title":"מי אנחנו.","intro":"","pillars":[]},"contact":{"address":"קרן היסוד 26, פתח תקווה.","welcome":"אורחים מתקבלים בברכה תמיד.","directions":"קרן היסוד 26, פתח תקווה.","map_url":"https://www.google.com/maps/search/?api=1&query=קרן+היסוד+26+פתח+תקווה","gabbaim":[{"name":"אריה זכסנהויז","phone":"0523680024","phone_display":"052-368-0024"}],"email":"kehila@beit-yisrael.org.il"},"footer":{"blessing":"״וְשָׁב וְקִבֶּצְךָ מִכָּל־הָעַמִּים״","copyright":"© 2026 · בית כנסת בית ישראל"},"donations":{"enabled":true,"title":"תרומות לבית הכנסת.","subtitle":"","bank_name":"","branch":"","account":"","account_name":"","iban":"","bit_phone":"","paybox":"","note":""}}</script>
+  <script id="fallback-data" type="application/json">{"_updated_display":"01.09.2026","notice":"","site":{"name":"בית ישראל","short_name":"בית ישראל","tagline":"בית תפילה קהילתי נוסח ספרד — פתוח בכל יום, לכל יהודי.","skin":"navy-gold"},"date":{"hebrew":"י״ט באלול תשפ״ו","gregorian":"1 בספטמבר 2026"},"shabbat":{"parasha":"נצבים־וילך","times_heading":"זמני תפילות בשבת","candle_time":"18:31","havdalah_time":"19:37","petiha":{"initial":"ב","text":"בָּרוּךְ אַתָּה בְּבֹאֶךָ\nוּבָרוּךְ אַתָּה בְּצֵאתֶךָ׃","reference":"דברים כ״ח, ו"},"times":[{"label":"הדלקת נרות","value":"18:31","note":"מ־Hebcal"},{"label":"מנחה, קבלת שבת וערבית","value":"18:55"},{"label":"שחרית","value":"08:15"},{"label":"ערבית והבדלה","value":"19:37"}]},"weekday":{"title":"זמני תפילה ימי חול","subtitle":"","table":[{"day":"ראשון","mincha":"18:55","maariv":"19:25"},{"day":"שני","mincha":"18:50","maariv":"19:25"},{"day":"שלישי","mincha":"18:50","maariv":"19:25"},{"day":"רביעי","mincha":"18:50","maariv":"19:20"},{"day":"חמישי","mincha":"18:50","maariv":"19:20"}],"shacharit":[{"label":"שחרית · שני, חמישי","value":"06:15"},{"label":"שחרית · שאר ימי החול","value":"06:30"}],"note":""},"zmanim":{"alot":"05:07","misheyakir":"05:29","sunrise":"06:21","shma_mga":"08:53","shma_gra":"09:29","tefilla":"10:32","chatzot":"12:38","mincha_gedola":"13:09","mincha_ketana":"16:18","plag":"17:36","shkia":"18:55","tzeit":"19:24"},"torah":{"title":"דבר תורה לפרשת השבוע.","subtitle":"","featured":{"date":"","title":"","excerpt":"","author":"","author_role":"","author_initial":""},"archive":[]},"qa":{"title":"שאלות ותשובות בהלכה.","subtitle":"","featured":{"date":"","question":"","answer":"","source":""},"archive":[]},"classes_section":{"title":"שיעורים קבועים.","subtitle":""},"classes":[],"community":{"title":"מי אנחנו.","intro":"","pillars":[]},"contact":{"address":"קרן היסוד 26, פתח תקווה.","welcome":"אורחים מתקבלים בברכה תמיד.","directions":"קרן היסוד 26, פתח תקווה.","map_url":"https://www.google.com/maps/search/?api=1&query=קרן+היסוד+26+פתח+תקווה","gabbaim":[{"name":"אריה זכסנהויז","phone":"0523680024","phone_display":"052-368-0024"}],"email":"kehila@beit-yisrael.org.il"},"footer":{"blessing":"״וְשָׁב וְקִבֶּצְךָ מִכָּל־הָעַמִּים״","copyright":"© 2026 · בית כנסת בית ישראל"},"donations":{"enabled":true,"title":"תרומות לבית הכנסת.","subtitle":"","bank_name":"","branch":"","account":"","account_name":"","iban":"","bit_phone":"","paybox":"","note":""}}</script>
   <script src="app.js"></script>
   <script src="a11y-widget.js"></script>
   <script src="reveal.js"></script>

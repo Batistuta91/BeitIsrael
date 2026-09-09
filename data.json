@@ -15,6 +15,8 @@
   "shabbat": {
     "parasha": "נצבים־וילך",
     "times_heading": "זמני תפילות בשבת",
+    "candle_time": "18:31",
+    "havdalah_time": "19:37",
     "petiha": {
       "initial": "ב",
       "text": "ָּר֣וּךְ אַתָּ֔ה בְּבֹאֶ֑ךָ\nוּבָר֥וּךְ אַתָּ֖ה בְּצֵאתֶֽךָ׃",
@@ -48,6 +50,20 @@
       { "label": "שחרית · ראש חודש", "value": "06:15" }
     ],
     "note": ""
+  },
+  "zmanim": {
+    "alot": "05:07",
+    "misheyakir": "05:29",
+    "sunrise": "06:21",
+    "shma_mga": "08:53",
+    "shma_gra": "09:29",
+    "tefilla": "10:32",
+    "chatzot": "12:38",
+    "mincha_gedola": "13:09",
+    "mincha_ketana": "16:18",
+    "plag": "17:36",
+    "shkia": "18:55",
+    "tzeit": "19:24"
   },
   "torah": {
     "title": "דבר תורה לפרשת השבוע.",
