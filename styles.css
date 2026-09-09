@@ -360,3 +360,44 @@ body.ltr .weekday__card { background: linear-gradient(225deg, rgba(206, 166, 71,
   .topbar, .hero__cta, .visit, .footer, .notice, .drawer, .drawer-overlay, .menu-btn, .lang-select, .admin-btn { display: none !important; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+.a11y-toggle {
+  position: fixed; bottom: 20px; left: 20px; z-index: 500;
+  width: 52px; height: 52px; border-radius: 50%; border: none;
+  background: var(--navy); color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.a11y-toggle:hover { background: var(--navy-deep); }
+.a11y-toggle:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.a11y-panel {
+  position: fixed; bottom: 82px; left: 20px; z-index: 500;
+  background: var(--bg-elev); border: 1px solid var(--divider); border-radius: 12px;
+  padding: var(--s-4); width: min(280px, calc(100vw - 40px));
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  font-family: var(--font-sans);
+}
+.a11y-panel[hidden] { display: none; }
+.a11y-panel h2 { font-family: var(--font-serif); font-weight: 600; font-size: 1.05rem; margin-bottom: var(--s-3); color: var(--ink); }
+.a11y-panel button.a11y-opt {
+  display: block; width: 100%;
+  padding: 10px 12px; margin-bottom: 6px; border: 1px solid var(--hairline); border-radius: 8px;
+  background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size: 0.92rem;
+  cursor: pointer; text-align: center;
+}
+.a11y-panel button.a11y-opt[aria-pressed="true"] { background: var(--accent); color: var(--navy); border-color: var(--accent); font-weight: 600; }
+.a11y-panel .a11y-reset { margin-top: 6px; color: var(--ink-3); background: none; border: none; text-decoration: underline; cursor: pointer; font-family: var(--font-sans); font-size: 0.85rem; width: 100%; text-align: center; }
+.a11y-panel .a11y-statement-link { display: block; text-align: center; margin-top: 10px; font-size: 0.85rem; }
+
+html.a11y-contrast body { background: #000 !important; color: #fff !important; }
+html.a11y-contrast .time-row, html.a11y-contrast .weekday__card, html.a11y-contrast .torah__featured,
+html.a11y-contrast .qa__featured, html.a11y-contrast .donate__card, html.a11y-contrast .torah__archive,
+html.a11y-contrast .qa__archive, html.a11y-contrast .a11y-panel {
+  background: #111 !important; border-color: #fff !important; color: #fff !important;
+}
+html.a11y-contrast a { color: #ffd54a !important; }
+html.a11y-contrast .hero, html.a11y-contrast .topbar, html.a11y-contrast .visit, html.a11y-contrast .footer { background: #000 !important; }
+html.a11y-contrast .time-row__value, html.a11y-contrast .weekday__card-time .val { color: #fff !important; }
+html.a11y-grayscale { filter: grayscale(1); }
+html.a11y-underline a { text-decoration: underline !important; }
+html.a11y-reduce-motion * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
